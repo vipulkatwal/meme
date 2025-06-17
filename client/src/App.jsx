@@ -4,6 +4,8 @@ import MemeForm from './components/MemeForm';
 import MemeCard from './components/MemeCard';
 import Leaderboard from './components/Leaderboard';
 import { useMemes } from './hooks/useMemes';
+import MemeDuel from './components/MemeDuel';
+import HackerHUD from './components/HackerHUD';
 
 function App() {
   const { memes, loading, createMeme, voteMeme, bidMeme } = useMemes();
@@ -33,6 +35,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white p-4 md:p-8">
+      <HackerHUD />
       <div className="max-w-7xl mx-auto">
         <motion.header
           initial={{ opacity: 0, y: -20 }}
@@ -49,6 +52,7 @@ function App() {
           </p>
         </motion.header>
 
+        <MemeDuel />
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main content */}
           <div className="lg:col-span-3 space-y-8">

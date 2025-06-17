@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../services/supabaseClient";
 import { socket } from "../services/socketClient";
+import { getUserId } from "../utils/userId";
 
 export function useMemes() {
 	const [memes, setMemes] = useState([]);
@@ -42,10 +43,11 @@ export function useMemes() {
 
 	// Create meme
 	const createMeme = async (memeData) => {
+		const user_id = getUserId();
 		const response = await fetch("http://localhost:3000/api/memes", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(memeData),
+			body: JSON.stringify({ ...memeData, user_id }),
 		});
 		if (!response.ok) throw new Error("Failed to create meme");
 		const newMeme = await response.json();
@@ -55,19 +57,21 @@ export function useMemes() {
 
 	// Vote meme
 	const voteMeme = async (memeId, type) => {
+		const user_id = getUserId();
 		await fetch(`http://localhost:3000/api/memes/${memeId}/vote`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ type }),
+			body: JSON.stringify({ type, user_id }),
 		});
 	};
 
 	// Place bid
 	const bidMeme = (memeId, credits) => {
+		const user_id = getUserId();
 		socket.emit("place_bid", {
 			meme_id: memeId,
 			credits,
-			user_id: "cyberpunk420",
+			user_id,
 		});
 	};
 

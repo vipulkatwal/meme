@@ -1,12 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../services/supabaseClient");
-const { generateCaption } = require("../services/geminiClient");
+const { generateCaption, canUseGemini } = require("../services/geminiClient");
 
 // Create a new meme
 router.post("/", async (req, res) => {
 	try {
-		const { title, image_url, tags } = req.body;
+		const { title, image_url, tags, user_id } = req.body;
+		if (!canUseGemini(user_id)) {
+			return res
+				.status(429)
+				.json({ error: "Rate limit exceeded for AI generation." });
+		}
 
 		// Generate caption using Gemini
 		const caption = await generateCaption(tags);

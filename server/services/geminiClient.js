@@ -4,6 +4,24 @@ const GEMINI_API_URL =
 	"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
+// In-memory per-user Gemini rate limit
+const userGeminiUsage = new Map();
+function canUseGemini(user_id) {
+	const now = Date.now();
+	const windowMs = 60 * 1000; // 1 minute
+	const maxPerMinute = 5;
+	if (!userGeminiUsage.has(user_id)) {
+		userGeminiUsage.set(user_id, []);
+	}
+	const timestamps = userGeminiUsage
+		.get(user_id)
+		.filter((ts) => now - ts < windowMs);
+	if (timestamps.length >= maxPerMinute) return false;
+	timestamps.push(now);
+	userGeminiUsage.set(user_id, timestamps);
+	return true;
+}
+
 // Simple in-memory cache
 const captionCache = new Map();
 const vibeCache = new Map();
@@ -72,4 +90,5 @@ async function generateVibe(tags) {
 module.exports = {
 	generateCaption,
 	generateVibe,
+	canUseGemini,
 };

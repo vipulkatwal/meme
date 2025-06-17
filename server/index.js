@@ -5,6 +5,7 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const memeRoutes = require("./routes/memes");
 const { setupBidHandlers } = require("./sockets/bidHandlers");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
 const httpServer = createServer(app);
@@ -18,6 +19,15 @@ const io = new Server(httpServer, {
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Global rate limiter (100 requests per 15 minutes per IP)
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100,
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+app.use(limiter);
 
 // Routes
 app.use("/api/memes", memeRoutes);
