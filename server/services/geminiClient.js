@@ -1,76 +1,73 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const axios = require("axios");
 
-// Initialize Gemini
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const GEMINI_API_URL =
+	"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 // Simple in-memory cache
 const captionCache = new Map();
 const vibeCache = new Map();
 
-// Retry configuration
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const generateWithRetry = async (prompt, retries = MAX_RETRIES) => {
+async function generateWithRetry(prompt, retries = MAX_RETRIES) {
 	try {
-		const result = await model.generateContent(prompt);
-		const response = await result.response;
-		return response.text();
+		const response = await axios.post(
+			`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
+			{
+				contents: [{ parts: [{ text: prompt }] }],
+			},
+			{ headers: { "Content-Type": "application/json" } }
+		);
+		return response.data.candidates?.[0]?.content?.parts?.[0]?.text;
 	} catch (error) {
 		if (retries > 0) {
 			await sleep(RETRY_DELAY);
 			return generateWithRetry(prompt, retries - 1);
 		}
+		console.error("Gemini API error:", error.response?.data || error.message);
 		throw error;
 	}
-};
+}
 
-const generateCaption = async (tags) => {
+async function generateCaption(tags) {
 	const cacheKey = tags.sort().join(",");
-
 	if (captionCache.has(cacheKey)) {
 		return captionCache.get(cacheKey);
 	}
-
 	try {
 		const prompt = `Write a funny, cyberpunk-themed meme caption for a meme with these tags: ${tags.join(
 			", "
-		)}.
-                   Keep it short, witty, and under 100 characters.`;
-
+		)}. Keep it short, witty, and under 100 characters.`;
 		const caption = await generateWithRetry(prompt);
 		captionCache.set(cacheKey, caption);
-		return caption;
+		return caption || "To the moon! 🚀";
 	} catch (error) {
 		console.error("Error generating caption:", error);
-		return "To the moon! 🚀"; // Fallback caption
+		return "To the moon! 🚀";
 	}
-};
+}
 
-const generateVibe = async (tags) => {
+async function generateVibe(tags) {
 	const cacheKey = tags.sort().join(",");
-
 	if (vibeCache.has(cacheKey)) {
 		return vibeCache.get(cacheKey);
 	}
-
 	try {
 		const prompt = `Describe the cyberpunk vibe of a meme with these tags: ${tags.join(
 			", "
-		)}.
-                   Keep it short and atmospheric, under 50 characters.`;
-
+		)}. Keep it short and atmospheric, under 50 characters.`;
 		const vibe = await generateWithRetry(prompt);
 		vibeCache.set(cacheKey, vibe);
-		return vibe;
+		return vibe || "Neon Crypto Chaos";
 	} catch (error) {
 		console.error("Error generating vibe:", error);
-		return "Neon Crypto Chaos"; // Fallback vibe
+		return "Neon Crypto Chaos";
 	}
-};
+}
 
 module.exports = {
 	generateCaption,

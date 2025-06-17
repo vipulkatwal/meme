@@ -8,6 +8,7 @@ const MemeCard = ({ meme, onVote, onBid }) => {
   const [currentHighestBid, setCurrentHighestBid] = useState(0);
   const [regenerating, setRegenerating] = useState(false);
   const [localMeme, setLocalMeme] = useState(meme);
+  const [voteFlash, setVoteFlash] = useState(null); // 'up' or 'down'
   const socket = useSocket();
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const MemeCard = ({ meme, onVote, onBid }) => {
       });
       if (!response.ok) throw new Error('Failed to regenerate caption/vibe');
       const updated = await response.json();
-      setLocalMeme({ ...meme, caption: updated.caption, vibe: updated.vibe });
+      setLocalMeme({ ...localMeme, caption: updated.caption, vibe: updated.vibe });
     } catch (err) {
       alert('Failed to regenerate caption/vibe.');
     } finally {
@@ -63,12 +64,20 @@ const MemeCard = ({ meme, onVote, onBid }) => {
     }
   };
 
+  const handleVote = async (id, type) => {
+    setVoteFlash(type);
+    setTimeout(() => setVoteFlash(null), 400);
+    await onVote(id, type);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gray-900/50 backdrop-blur-sm rounded-lg border border-cyan-500/30
-                 shadow-lg shadow-cyan-500/20 overflow-hidden"
+      className={`bg-gray-900/50 backdrop-blur-sm rounded-lg border border-cyan-500/30
+                 shadow-lg shadow-cyan-500/20 overflow-hidden transition-all duration-300
+                 ${voteFlash === 'up' ? 'ring-4 ring-cyan-400' : ''}
+                 ${voteFlash === 'down' ? 'ring-4 ring-purple-500' : ''}`}
     >
       <div className="relative">
         <img
@@ -112,7 +121,7 @@ const MemeCard = ({ meme, onVote, onBid }) => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => onVote(localMeme.id, 'up')}
+              onClick={() => handleVote(localMeme.id, 'up')}
               className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white
                        font-orbitron py-2 rounded-lg shadow-lg shadow-cyan-500/20"
             >
@@ -121,7 +130,7 @@ const MemeCard = ({ meme, onVote, onBid }) => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => onVote(localMeme.id, 'down')}
+              onClick={() => handleVote(localMeme.id, 'down')}
               className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white
                        font-orbitron py-2 rounded-lg shadow-lg shadow-purple-500/20"
             >
