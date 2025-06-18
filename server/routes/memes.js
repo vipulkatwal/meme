@@ -124,7 +124,7 @@ router.get("/leaderboard", async (req, res) => {
 router.post("/:id/bid", async (req, res) => {
 	try {
 		const { id: meme_id } = req.params;
-		const { credits, user_id } = req.body;
+		const { credits, user_id, user_name, user_avatar } = req.body;
 		if (!credits || !user_id) {
 			return res
 				.status(400)
@@ -148,16 +148,20 @@ router.post("/:id/bid", async (req, res) => {
 
 		const { data: newBid, error } = await supabase
 			.from("bids")
-			.insert([{ meme_id, user_id, credits }])
+			.insert([{ meme_id, user_id, user_name, user_avatar, credits }])
 			.select()
 			.single();
 		if (error) throw error;
 
-		// Emit bid update via Socket.IO
+		// Emit bid update via Socket.IO with highest_bidder info
 		req.app.get("io")?.emit("bid_update", {
 			meme_id,
-			new_bid: newBid,
 			highest_bid: credits,
+			highest_bidder: {
+				id: user_id,
+				name: user_name,
+				avatar: user_avatar,
+			},
 		});
 
 		res.status(201).json(newBid);
@@ -198,6 +202,47 @@ router.post("/:id/caption", async (req, res) => {
 		res.json(updatedMeme);
 	} catch (error) {
 		console.error("Error generating caption/vibe:", error);
+		res.status(500).json({ error: error.message });
+	}
+});
+
+// Get all memes with highest bid and bidder
+router.get("/with-bids", async (req, res) => {
+	try {
+		const { data: memes, error } = await supabase
+			.from("memes")
+			.select("*")
+			.order("created_at", { ascending: false });
+
+		if (error) throw error;
+
+		// For each meme, fetch the highest bid
+		const memesWithBids = await Promise.all(
+			memes.map(async (meme) => {
+				const { data: bids } = await supabase
+					.from("bids")
+					.select("credits, user_id, user_name, user_avatar")
+					.eq("meme_id", meme.id)
+					.order("credits", { ascending: false })
+					.limit(1);
+
+				if (bids && bids.length > 0) {
+					meme.highest_bid = bids[0].credits;
+					meme.highest_bidder = {
+						id: bids[0].user_id,
+						name: bids[0].user_name,
+						avatar: bids[0].user_avatar,
+					};
+				} else {
+					meme.highest_bid = 0;
+					meme.highest_bidder = null;
+				}
+				return meme;
+			})
+		);
+
+		res.json(memesWithBids);
+	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
 });

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../services/supabaseClient";
 import { socket } from "../services/socketClient";
-import { getUser } from "../utils/userId";
+import { getUser, mockUsers } from "../utils/userId";
 
 export function useMemes() {
 	const [memes, setMemes] = useState([]);
@@ -10,11 +10,11 @@ export function useMemes() {
 	// Fetch memes from Supabase
 	const fetchMemes = useCallback(async () => {
 		setLoading(true);
-		const { data, error } = await supabase
-			.from("memes")
-			.select("*")
-			.order("created_at", { ascending: false });
-		if (!error) setMemes(data);
+		const response = await fetch("http://localhost:3000/api/memes/with-bids");
+		if (response.ok) {
+			const data = await response.json();
+			setMemes(data);
+		}
 		setLoading(false);
 	}, []);
 
@@ -66,15 +66,28 @@ export function useMemes() {
 	};
 
 	// Place bid
-	const bidMeme = (memeId, credits) => {
-		const user = getUser();
-		socket.emit("place_bid", {
-			meme_id: memeId,
-			credits,
-			user_id: user.id,
-			user_name: user.name,
-			user_avatar: user.avatar,
-		});
+	const bidMeme = async (memeId, credits) => {
+		// Pick a random mock user for each bid
+		const user = mockUsers[Math.floor(Math.random() * mockUsers.length)];
+		const response = await fetch(
+			`http://localhost:3000/api/memes/${memeId}/bid`,
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					credits,
+					user_id: user.id,
+					user_name: user.name,
+					user_avatar: user.avatar,
+				}),
+			}
+		);
+		if (!response.ok) {
+			const err = await response.json();
+			alert(err.error || "Failed to place bid");
+			throw new Error(err.error || "Failed to place bid");
+		}
+		// No need to update state here; real-time update comes from socket event
 	};
 
 	return {

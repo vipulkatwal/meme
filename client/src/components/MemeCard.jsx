@@ -25,7 +25,7 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
     // Listen for vote updates
     socket.on('vote_update', ({ meme_id, upvotes }) => {
       if (meme_id === meme.id) {
-        meme.upvotes = upvotes;
+        setLocalMeme((prev) => ({ ...prev, upvotes }));
       }
     });
 
@@ -34,6 +34,11 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
       socket.off('vote_update');
     };
   }, [socket, meme]);
+
+  // Sync localMeme with prop changes (e.g., after voting or new data)
+  useEffect(() => {
+    setLocalMeme(meme);
+  }, [meme]);
 
   const handleBidSubmit = (e) => {
     e.preventDefault();
