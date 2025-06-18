@@ -75,8 +75,9 @@ const MemeCard = ({ meme, onVote, onBid }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-gray-900/50 backdrop-blur-sm rounded-lg border border-cyan-500/30
-                 shadow-lg shadow-cyan-500/20 overflow-hidden transition-all duration-300
+      className={`bg-gray-900/50 backdrop-blur-sm rounded-2xl border-2 border-cyan-500/40
+                 shadow-2xl shadow-cyan-500/30 overflow-hidden transition-all duration-300
+                 w-full max-w-xl mx-auto
                  ${voteFlash === 'up' ? 'ring-4 ring-cyan-400' : ''}
                  ${voteFlash === 'down' ? 'ring-4 ring-purple-500' : ''}`}
     >
@@ -85,22 +86,23 @@ const MemeCard = ({ meme, onVote, onBid }) => {
           <img
             src={localMeme.image_url}
             alt={localMeme.title}
-            className="w-full h-48 object-cover"
+            className="w-full h-80 object-contain bg-black"
+            style={{ maxHeight: '22rem', minHeight: '16rem', background: '#181a2a' }}
           />
         ) : (
-          <GlitchPlaceholder width={400} height={192} />
+          <GlitchPlaceholder width={600} height={320} />
         )}
         <div className="absolute top-2 right-2 bg-black/70 px-2 py-1 rounded text-cyan-400 font-share-tech-mono">
           {localMeme.upvotes} votes
         </div>
       </div>
 
-      <div className="p-4 pb-6">
-        <h3 className="text-xl font-orbitron text-cyan-400 mb-2 break-words">{localMeme.title}</h3>
+      <div className="p-4">
+        <h3 className="text-xl font-orbitron text-cyan-400 mb-2">{localMeme.title}</h3>
 
         <div className="space-y-2">
-          <p className="text-cyan-300 font-share-tech-mono text-sm break-words">{localMeme.caption}</p>
-          <p className="text-purple-400 font-share-tech-mono text-xs italic break-words">{localMeme.vibe}</p>
+          <p className="text-cyan-300 font-share-tech-mono text-sm">{localMeme.caption}</p>
+          <p className="text-purple-400 font-share-tech-mono text-xs italic">{localMeme.vibe}</p>
           <button
             onClick={handleRegenerate}
             disabled={regenerating}

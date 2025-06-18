@@ -65,19 +65,31 @@ router.post("/:id/vote", async (req, res) => {
 		const { id } = req.params;
 		const { type } = req.body;
 
+		// Fetch current upvotes
+		const { data: meme, error: fetchError } = await supabase
+			.from("memes")
+			.select("upvotes")
+			.eq("id", id)
+			.single();
+		if (fetchError || !meme) throw fetchError || new Error("Meme not found");
+
+		// Calculate new upvotes
+		const newUpvotes = Math.max(0, meme.upvotes + (type === "up" ? 1 : -1));
+
+		// Update upvotes in Supabase
 		const { data, error } = await supabase
 			.from("memes")
-			.update({
-				upvotes: supabase.raw(`upvotes + ${type === "up" ? 1 : -1}`),
-			})
+			.update({ upvotes: newUpvotes })
 			.eq("id", id)
 			.select()
 			.single();
-
 		if (error) throw error;
 
 		// Emit vote update
-		req.app.get("io").emit("vote_update", { id, upvotes: data.upvotes });
+		const io = req.app.get("io");
+		if (io) {
+			io.emit("vote_update", { meme_id: id, upvotes: newUpvotes });
+		}
 
 		res.json(data);
 	} catch (error) {
