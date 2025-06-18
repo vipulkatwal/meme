@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { mockUsers } from '../utils/userId';
 
@@ -16,13 +16,20 @@ function shuffle(array) {
 }
 
 const LeaderboardPage = () => {
-  // Generate dummy leaderboard data with random upvotes and bids
-  const leaderboard = useMemo(() => {
-    return shuffle(mockUsers).map((user, idx) => ({
-      ...user,
-      upvotes: getRandomInt(100, 1000),
-      bids: getRandomInt(10, 200),
-    }));
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchLeaderboard() {
+      setLoading(true);
+      const response = await fetch('http://localhost:3000/api/memes/leaderboard/bids');
+      if (response.ok) {
+        const data = await response.json();
+        setLeaderboard(data);
+      }
+      setLoading(false);
+    }
+    fetchLeaderboard();
   }, []);
 
   return (
@@ -37,27 +44,31 @@ const LeaderboardPage = () => {
       </motion.h1>
       <div className="bg-cyan-900/60 backdrop-blur-md rounded-2xl border border-cyan-400/30 shadow-2xl shadow-cyan-500/20 p-8">
         <div className="flex flex-col gap-6">
-          {leaderboard.map((user, i) => (
+          {loading ? (
+            <div className="text-cyan-300 text-center py-8 font-orbitron text-xl">Loading...</div>
+          ) : leaderboard.length === 0 ? (
+            <div className="text-cyan-300 text-center py-8 font-orbitron text-xl">No bids yet!</div>
+          ) : leaderboard.map((user, i) => (
             <motion.div
-              key={user.id}
+              key={user.user_id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.07 }}
               className={`flex items-center gap-5 p-4 rounded-xl bg-gray-900/60 border border-cyan-500/20 shadow-lg ${i === 0 ? 'ring-4 ring-cyan-400/60' : ''}`}
             >
               <div className="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-cyan-400 shadow">
-                <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                <img src={user.user_avatar} alt={user.user_name} className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-orbitron text-xl text-cyan-200 truncate">{user.name}</span>
+                  <span className="font-orbitron text-xl text-cyan-200 truncate">{user.user_name}</span>
                   {i === 0 && <span className="ml-2 px-2 py-0.5 rounded bg-gradient-to-r from-cyan-400 to-purple-400 text-black font-bold text-xs animate-pulse">TOP</span>}
                 </div>
-                <div className="text-cyan-400/80 font-share-tech-mono text-sm mt-1">{user.role}</div>
+                <div className="text-cyan-400/80 font-share-tech-mono text-sm mt-1">{user.user_id}</div>
               </div>
               <div className="flex flex-col items-end gap-1">
-                <span className="font-orbitron text-lg text-cyan-300">{user.upvotes} <span className="text-xs font-share-tech-mono text-cyan-400/70">upvotes</span></span>
-                <span className="font-orbitron text-base text-purple-300">{user.bids} <span className="text-xs font-share-tech-mono text-purple-400/70">bids</span></span>
+                <span className="font-orbitron text-lg text-cyan-300">{user.total_credits} <span className="text-xs font-share-tech-mono text-cyan-400/70">credits</span></span>
+                <span className="font-orbitron text-base text-purple-300">{user.total_bids} <span className="text-xs font-share-tech-mono text-purple-400/70">bids</span></span>
               </div>
             </motion.div>
           ))}

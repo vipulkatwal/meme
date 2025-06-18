@@ -247,4 +247,37 @@ router.get("/with-bids", async (req, res) => {
 	}
 });
 
+// Get leaderboard by total bids (top bidders)
+router.get("/leaderboard/bids", async (req, res) => {
+	try {
+		const { data, error } = await supabase
+			.from("bids")
+			.select("user_id, user_name, user_avatar, credits");
+		if (error) throw error;
+
+		// Aggregate in JS
+		const leaderboard = {};
+		data.forEach((bid) => {
+			if (!bid.user_id) return;
+			if (!leaderboard[bid.user_id]) {
+				leaderboard[bid.user_id] = {
+					user_id: bid.user_id,
+					user_name: bid.user_name,
+					user_avatar: bid.user_avatar,
+					total_credits: 0,
+					total_bids: 0,
+				};
+			}
+			leaderboard[bid.user_id].total_credits += bid.credits;
+			leaderboard[bid.user_id].total_bids += 1;
+		});
+		const result = Object.values(leaderboard).sort(
+			(a, b) => b.total_credits - a.total_credits
+		);
+		res.json(result);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+});
+
 module.exports = router;

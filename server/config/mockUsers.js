@@ -1,3 +1,5 @@
+// /config/mockUsers.js
+
 const mockUsers = [
 	{
 		id: "cyberpunk420",
@@ -18,46 +20,76 @@ const mockUsers = [
 		role: "speculator",
 	},
 	{
-		id: "bytefreak01",
-		name: "Byte Freak",
-		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=ByteFreak",
-		role: "engineer",
-	},
-	{
-		id: "vibecrasher007",
-		name: "Vibe Crasher",
-		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=VibeCrasher",
-		role: "troll",
-	},
-	{
-		id: "memelordx",
-		name: "Meme Lord X",
-		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=MemeLordX",
-		role: "collector",
-	},
-	{
-		id: "gl1tchm0nk",
-		name: "Gl1tch M0nk",
-		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=GlitchMonk",
+		id: "memezilla",
+		name: "Dank Tyrant",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Tyrant",
 		role: "creator",
 	},
 	{
-		id: "degen_dao",
-		name: "Degen DAO",
-		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=DegenDAO",
+		id: "shitposterX",
+		name: "The Anarchist",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Anarchist",
+		role: "lurker",
+	},
+	{
+		id: "sniped420",
+		name: "Bid Sniper",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Sniper",
 		role: "trader",
 	},
 	{
-		id: "rootkitronin",
-		name: "Rootkit Ronin",
-		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=RootkitRonin",
-		role: "hacker",
+		id: "hodler42",
+		name: "Crypto Monk",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Monk",
+		role: "collector",
 	},
 	{
-		id: "shillmaster9000",
-		name: "Shillmaster 9000",
-		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Shillmaster",
-		role: "promoter",
+		id: "vibeking",
+		name: "Aura Dealer",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Aura",
+		role: "vibe-analyst",
+	},
+	{
+		id: "memecrafter9000",
+		name: "Template Wielder",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Crafter",
+		role: "creator",
+	},
+	{
+		id: "bitclownx",
+		name: "Satirical Savage",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Clown",
+		role: "shitposter",
+	},
+	{
+		id: "terminalfrog",
+		name: "Glitch Frog",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Frog",
+		role: "collector",
+	},
+	{
+		id: "ape_lord",
+		name: "NFT Monk",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Ape",
+		role: "trader",
+	},
+	{
+		id: "bootloader3000",
+		name: "Kernel Panic",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Bootloader",
+		role: "techie",
+	},
+	{
+		id: "toxicsage",
+		name: "Comment Warrior",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Sage",
+		role: "downvoter",
+	},
+	{
+		id: "zero_react",
+		name: "Blank Stare",
+		avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Zero",
+		role: "lurker",
 	},
 ];
 
