@@ -27,13 +27,13 @@ const AboutPage = () => (
       className="max-w-2xl w-full bg-cyan-900/60 border border-cyan-400/30 rounded-2xl shadow-2xl shadow-cyan-500/30 backdrop-blur-md p-4 sm:p-8 mb-8 sm:mb-12 text-center"
     >
       <p className="text-cyan-200 font-share-tech-mono text-base sm:text-xl md:text-2xl mb-3 sm:mb-4">
-        <span className="text-purple-400 font-bold">MemeHustle</span>  — where memes aren't just jokes, they're weapons of mass distraction. In this neon-drenched marketplace, every upload is a cultural payload and every caption is a rebellion against boring internet.
+        <span className="text-purple-400 font-bold">MemeHustle</span> where memes aren’t just jokes, they’re financial instruments of pure stupidity.
       </p>
-      <p className="text-cyan-300 font-orbitron text-base sm:text-lg mb-2">
-        Whether you're a meme war veteran or just here to bid on cursed JPEGs, one thing's clear: you're part of the weirdest asset class on the web.
+      <p className="text-cyan-300 font-orbitron text-sm sm:text-lg mb-2">
+        It is neon-lit marketplace where your low-effort shitpost could spark a bidding war, and a cursed JPEG might bankrupt a crypto bro.
       </p>
       <p className="text-cyan-400/70 font-share-tech-mono text-xs sm:text-base">
-        Born from a love of memes, tech, and a little bit of chaos.
+        Born from memes, code, and just the right amount of chaos.
       </p>
     </motion.div>
     {/* Tech Stack Section */}

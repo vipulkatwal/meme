@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import img1 from '../assets/1.jpg';
+import img1 from '../assets/1.png';
 import img2 from '../assets/2.png';
 import img3 from '../assets/3.jpg';
 import img4 from '../assets/4.png';
@@ -13,7 +13,7 @@ import img7 from '../assets/7.jpg';
 import img8 from '../assets/8.jpg';
 import img9 from '../assets/9.jpg';
 import img10 from '../assets/10.jpg';
-import img11 from '../assets/11.png';
+import img11 from '../assets/11.jpg';
 import img12 from '../assets/12.png';
 
 // Register ScrollTrigger plugin

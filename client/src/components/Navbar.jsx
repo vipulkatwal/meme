@@ -127,7 +127,7 @@ const Navbar = () => {
 
         {/* Premium text with shimmer effect */}
         <span className="relative">
-          <span className="relative z-10">MEMEHUSTLE</span>
+          <span className="relative z-10">MemeHustle</span>
 
           {/* Premium underline with animation */}
           <div
