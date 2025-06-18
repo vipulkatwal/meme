@@ -22,14 +22,14 @@ const Navbar = () => (
       <span className="">MEMEHUSTLE</span>
     </Link>
     <div className="flex gap-8 md:gap-14 font-share-tech-mono text-cyan-200 text-base md:text-lg items-center">
-      <a
-        href="#marketplace"
+      <Link
+        to="/trending"
         className="relative flex items-center gap-2 px-2 py-1 transition text-orange-300 hover:text-orange-400 after:content-[''] after:block after:h-0.5 after:bg-orange-400 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:origin-left"
         style={{ textShadow: '0 0 12px #ff6a00, 0 0 24px #ffb300, 0 0 32px #ff3c00' }}
       >
         <FaFire className="text-lg" style={{ color: '#ffb300', animation: 'fire-glow 1.2s infinite alternate' }} />
         Trending Now
-      </a>
+      </Link>
       <a
         href="#leaderboard"
         className="relative flex items-center gap-2 px-2 py-1 transition text-cyan-200 hover:text-cyan-400 after:content-[''] after:block after:h-0.5 after:bg-cyan-400 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:origin-left"

@@ -182,9 +182,9 @@ router.post("/:id/caption", async (req, res) => {
 		}
 		const tags = meme.tags || [];
 
-		// Generate caption and vibe
-		const caption = await generateCaption(tags);
-		const vibe = await generateVibe(tags);
+		// Force regenerate caption and vibe
+		const caption = await generateCaption(tags, true);
+		const vibe = await generateVibe(tags, true);
 
 		// Update meme with caption and vibe
 		const { data: updatedMeme, error: updateError } = await supabase

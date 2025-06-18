@@ -80,9 +80,9 @@ async function generateWithRetry(prompt, retries = MAX_RETRIES) {
 	}
 }
 
-async function generateCaption(tags) {
+async function generateCaption(tags, force = false) {
 	const cacheKey = tags.sort().join(",");
-	if (captionCache.has(cacheKey)) {
+	if (!force && captionCache.has(cacheKey)) {
 		return captionCache.get(cacheKey);
 	}
 	try {
@@ -98,9 +98,9 @@ async function generateCaption(tags) {
 	}
 }
 
-async function generateVibe(tags) {
+async function generateVibe(tags, force = false) {
 	const cacheKey = tags.sort().join(",");
-	if (vibeCache.has(cacheKey)) {
+	if (!force && vibeCache.has(cacheKey)) {
 		return vibeCache.get(cacheKey);
 	}
 	try {

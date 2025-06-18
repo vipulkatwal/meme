@@ -43,7 +43,7 @@ export function useMemes() {
 
 	// Create meme
 	const createMeme = async (memeData) => {
-		const user_id = getUserId();
+		const user_id = getUser().id;
 		const response = await fetch("http://localhost:3000/api/memes", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -57,7 +57,7 @@ export function useMemes() {
 
 	// Vote meme
 	const voteMeme = async (memeId, type) => {
-		const user_id = getUserId();
+		const user_id = getUser().id;
 		await fetch(`http://localhost:3000/api/memes/${memeId}/vote`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
