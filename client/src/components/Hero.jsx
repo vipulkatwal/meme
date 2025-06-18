@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { FaRocket } from 'react-icons/fa';
 
 const imageFiles = [
   '1.jpg', '2.png', '3.jpg', '4.png', '5.jpg', '6.jpg',
@@ -28,6 +29,7 @@ const Hero = () => {
   const headlineRef = useRef();
   const subRef = useRef();
   const btnRef = useRef();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setImages(imageFiles.map(file => `/src/assets/${file}`));
@@ -77,6 +79,14 @@ const Hero = () => {
     };
   }, [images]);
 
+  // Responsive image count
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Crazy hover effect
   const handleHover = (e, i) => {
     gsap.to(e.currentTarget, {
@@ -100,35 +110,41 @@ const Hero = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-cyan-950/80 to-gray-950/90 text-center" id="hero">
+    <section className="py-24 md:py-32 bg-gradient-to-b from-cyan-950/80 to-gray-950/90 text-center flex flex-col items-center" id="hero">
       <h1
         ref={headlineRef}
-        className="text-6xl md:text-8xl font-orbitron text-cyan-400 mb-8 glitch drop-shadow-[0_0_16px_#00fff7]">
+        className="text-7xl md:text-8xl font-orbitron text-cyan-400 mb-10 glitch drop-shadow-[0_0_32px_#00fff7] tracking-wider"
+      >
         Welcome to MemeHustle
       </h1>
       <p
         ref={subRef}
-        className="text-2xl md:text-3xl text-cyan-200 font-share-tech-mono mb-16 drop-shadow-[0_0_10px_#00fff7]">
+        className="text-3xl md:text-4xl font-share-tech-mono mb-20 bg-gradient-to-r from-cyan-300 via-purple-300 to-cyan-200 text-transparent bg-clip-text drop-shadow-[0_0_18px_#00fff7]"
+        style={{ WebkitTextStroke: '0.5px #00fff7' }}
+      >
         Buy Low, Meme High. Because JPEGs Deserve a Fighting Chance Too.
       </p>
       <div
         ref={collageRef}
-        className="relative mx-auto mb-8"
-        style={{ width: '90vw', maxWidth: 1100, height: 360, minHeight: 220 }}
+        className="relative mx-auto mb-14 flex flex-wrap justify-center items-center gap-4 md:gap-0"
+        style={{ width: '95vw', maxWidth: 1200, minHeight: 220, height: 'auto' }}
       >
-        {images.map((src, i) => (
+        {(isMobile ? images.slice(0, 4) : images).map((src, i) => (
           <img
             key={i}
             src={src}
-            alt={`meme-collage-${i}`}
-            className="absolute w-52 h-52 md:w-64 md:h-64 object-cover rounded-xl border-2 border-cyan-700/30 shadow-xl transition-all duration-300"
+            alt={`Meme collage image ${i + 1}`}
+            className={`rounded-xl border-2 border-cyan-700/30 shadow-xl transition-all duration-300 object-cover bg-[#181a2a] ${
+              'w-40 h-40 md:w-56 md:h-56 ' + (i % 2 === 0 ? 'md:mt-8' : 'md:mb-8')
+            }`}
             style={{
-              top: collagePositions[i]?.top || '0%',
-              left: collagePositions[i]?.left || '0%',
-              zIndex: collagePositions[i]?.z || 1,
+              position: 'relative',
+              zIndex: 2 + (i % 3),
               transform: `rotate(${collagePositions[i]?.rotate || 0}deg)`,
-              boxShadow: '0 0 24px #00fff7, 0 0 48px #a855f7',
-              background: '#181a2a'
+              boxShadow: '0 0 32px #00fff7, 0 0 64px #a855f7',
+              marginLeft: i === 0 ? 0 : -40,
+              marginRight: i === images.length - 1 ? 0 : -40,
+              transition: 'transform 0.3s, box-shadow 0.3s',
             }}
             loading="lazy"
             onMouseEnter={e => handleHover(e, i)}
@@ -136,14 +152,6 @@ const Hero = () => {
           />
         ))}
       </div>
-      <a href="#marketplace">
-        <button
-          ref={btnRef}
-          className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-orbitron rounded-lg shadow-lg text-xl hover:from-cyan-400 hover:to-purple-400 transition-all"
-        >
-          Enter Marketplace
-        </button>
-      </a>
     </section>
   );
 };

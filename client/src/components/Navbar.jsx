@@ -30,14 +30,14 @@ const Navbar = () => (
         <FaFire className="text-lg" style={{ color: '#ffb300', animation: 'fire-glow 1.2s infinite alternate' }} />
         Trending Now
       </Link>
-      <a
-        href="#leaderboard"
+      <Link
+        to="/leaderboard"
         className="relative flex items-center gap-2 px-2 py-1 transition text-cyan-200 hover:text-cyan-400 after:content-[''] after:block after:h-0.5 after:bg-cyan-400 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:origin-left"
         style={{ textShadow: '0 0 8px #00fff7' }}
       >
         <FaTrophy className="text-yellow-400 text-lg drop-shadow-[0_0_6px_#ffe066]" />
         Leaderboard
-      </a>
+      </Link>
       <a
         href="/add-meme"
         className="relative flex items-center gap-2 px-2 py-1 transition text-green-300 hover:text-green-400 after:content-[''] after:block after:h-0.5 after:bg-green-400 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:origin-left"
@@ -46,14 +46,14 @@ const Navbar = () => (
         <FaPlus className="text-green-400 text-lg" />
         Add Meme
       </a>
-      <a
-        href="#about"
+      <Link
+        to="/about"
         className="relative flex items-center gap-2 px-2 py-1 transition text-cyan-200 hover:text-cyan-400 after:content-[''] after:block after:h-0.5 after:bg-cyan-400 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:origin-left"
         style={{ textShadow: '0 0 8px #00fff7' }}
       >
         <FaInfoCircle className="text-purple-400 text-lg drop-shadow-[0_0_6px_#a855f7]" />
         About
-      </a>
+      </Link>
     </div>
     <div className="absolute left-0 right-0 bottom-0 h-0.5 bg-gradient-to-r from-cyan-400/0 via-cyan-400/60 to-cyan-400/0 blur-sm opacity-80 pointer-events-none" />
   </nav>

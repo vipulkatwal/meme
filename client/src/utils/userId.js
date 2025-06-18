@@ -1,5 +1,5 @@
 // Assign a random mock user to this client if not already assigned
-const mockUsers = [
+export const mockUsers = [
 	{
 		id: "cyberpunk420",
 		name: "Neo Biddersmith",

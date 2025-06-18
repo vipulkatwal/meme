@@ -4,7 +4,7 @@ import { useSocket } from '../hooks/useSocket';
 import BidPanel from './BidPanel';
 import GlitchPlaceholder from './GlitchPlaceholder';
 
-const MemeCard = ({ meme, onVote, onBid }) => {
+const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
   const [bidAmount, setBidAmount] = useState('');
   const [currentHighestBid, setCurrentHighestBid] = useState(0);
   const [regenerating, setRegenerating] = useState(false);
@@ -71,13 +71,17 @@ const MemeCard = ({ meme, onVote, onBid }) => {
     await onVote(id, type);
   };
 
+  const cardMaxWidth = cardSize === 'duel' ? 'max-w-md' : 'max-w-xl';
+  const imgHeight = cardSize === 'duel' ? 'h-64' : 'h-80';
+  const imgMaxHeight = cardSize === 'duel' ? '18rem' : '22rem';
+  const imgMinHeight = cardSize === 'duel' ? '12rem' : '16rem';
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className={`bg-gray-900/50 backdrop-blur-sm rounded-2xl border-2 border-cyan-500/40
                  shadow-2xl shadow-cyan-500/30 overflow-hidden transition-all duration-300
-                 w-full max-w-xl mx-auto
+                 w-full ${cardMaxWidth} mx-auto
                  ${voteFlash === 'up' ? 'ring-4 ring-cyan-400' : ''}
                  ${voteFlash === 'down' ? 'ring-4 ring-purple-500' : ''}`}
     >
@@ -86,11 +90,11 @@ const MemeCard = ({ meme, onVote, onBid }) => {
           <img
             src={localMeme.image_url}
             alt={localMeme.title}
-            className="w-full h-80 object-contain bg-black"
-            style={{ maxHeight: '22rem', minHeight: '16rem', background: '#181a2a' }}
+            className={`w-full ${imgHeight} object-contain bg-black`}
+            style={{ maxHeight: imgMaxHeight, minHeight: imgMinHeight, background: '#181a2a' }}
           />
         ) : (
-          <GlitchPlaceholder width={600} height={320} />
+          <GlitchPlaceholder width={cardSize === 'duel' ? 400 : 600} height={cardSize === 'duel' ? 220 : 320} />
         )}
         <div className="absolute top-2 right-2 bg-black/70 px-2 py-1 rounded text-cyan-400 font-share-tech-mono">
           {localMeme.upvotes} votes

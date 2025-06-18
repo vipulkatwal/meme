@@ -11,6 +11,8 @@ import Hero from './components/Hero';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AddMemePage from './pages/AddMemePage';
 import TrendingPage from './pages/TrendingPage';
+import LeaderboardPage from './pages/LeaderboardPage';
+import AboutPage from './pages/AboutPage';
 
 function App() {
   const { memes, loading, createMeme, voteMeme, bidMeme } = useMemes();
@@ -58,6 +60,8 @@ function App() {
             </>
           } />
           <Route path="/trending" element={<TrendingPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/add-meme" element={<AddMemePage createMeme={createMeme} />} />
         </Routes>
       </div>
