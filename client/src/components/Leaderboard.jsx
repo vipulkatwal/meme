@@ -4,6 +4,7 @@ import { supabase } from '../services/supabaseClient';
 
 const Leaderboard = () => {
   const [topMemes, setTopMemes] = useState([]);
+  const [topBidders, setTopBidders] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,6 +21,23 @@ const Leaderboard = () => {
 
       if (error) throw error;
       setTopMemes(data);
+
+      // For each meme, fetch its top bidder
+      const bidders = {};
+      await Promise.all(
+        data.map(async (meme) => {
+          const { data: bids } = await supabase
+            .from('bids')
+            .select('user_id, user_name, user_avatar, credits')
+            .eq('meme_id', meme.id)
+            .order('credits', { ascending: false })
+            .limit(1);
+          if (bids && bids.length > 0) {
+            bidders[meme.id] = bids[0];
+          }
+        })
+      );
+      setTopBidders(bidders);
     } catch (error) {
       console.error('Error fetching top memes:', error);
     } finally {
@@ -46,31 +64,37 @@ const Leaderboard = () => {
       </h2>
 
       <div className="space-y-3">
-        {topMemes.map((meme, index) => (
-          <motion.div
-            key={meme.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="flex items-center gap-3 p-2 rounded-lg bg-gray-800/50
-                     hover:bg-gray-800/70 transition-colors duration-200"
-          >
-            <div className="w-8 h-8 flex items-center justify-center
-                          bg-gradient-to-r from-cyan-500 to-purple-600
-                          rounded-full text-white font-orbitron">
-              {index + 1}
-            </div>
-
-            <div className="flex-1 min-w-0">
-              <h3 className="text-cyan-300 font-share-tech-mono truncate">
-                {meme.title}
-              </h3>
-              <p className="text-cyan-400/70 text-sm font-share-tech-mono">
-                {meme.upvotes} votes
-              </p>
-            </div>
-          </motion.div>
-        ))}
+        {topMemes.map((meme, index) => {
+          const bidder = topBidders[meme.id];
+          return (
+            <motion.div
+              key={meme.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className={`flex flex-col gap-1 p-3 rounded-xl bg-gray-800/60 hover:bg-gray-800/80 transition-colors duration-200 border border-cyan-500/20 ${index < 3 ? 'ring-2 ring-cyan-400/60 shadow-lg' : ''}`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-8 h-8 flex items-center justify-center rounded-full text-white font-orbitron text-lg ${index === 0 ? 'bg-gradient-to-r from-yellow-400 to-cyan-400' : index === 1 ? 'bg-gradient-to-r from-cyan-400 to-purple-400' : index === 2 ? 'bg-gradient-to-r from-purple-400 to-cyan-400' : 'bg-gradient-to-r from-cyan-500 to-purple-600'}`}>{index + 1}</div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-cyan-200 font-orbitron text-base truncate max-w-[140px]">{meme.title}</h3>
+                  <span className="text-cyan-400/80 font-share-tech-mono text-sm">{meme.upvotes} votes</span>
+                </div>
+              </div>
+              <div className="mt-1 flex items-center gap-2 min-h-[28px]">
+                {bidder ? (
+                  <div className="flex items-center gap-2 bg-cyan-900/60 px-2 py-1 rounded-lg border border-cyan-500/30 w-full">
+                    <img src={bidder.user_avatar} alt={bidder.user_name} className="w-6 h-6 rounded-full border border-cyan-400 shadow" />
+                    <span className="text-cyan-200 font-share-tech-mono text-xs truncate max-w-[70px]">{bidder.user_name}</span>
+                    <span className="text-purple-300 font-orbitron text-xs ml-auto">{bidder.credits} cr</span>
+                  </div>
+                ) : (
+                  <span className="text-cyan-500/60 font-share-tech-mono text-xs ml-2">No bids</span>
+                )}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </motion.div>
   );

@@ -82,23 +82,6 @@ const TrendingPage = () => {
       {/* Divider */}
       <div className="w-full h-1 bg-gradient-to-r from-purple-400/0 via-purple-400/40 to-purple-400/0 blur-sm mt-16 mb-10" />
 
-      {/* About Section */}
-      <section id="about" className="mt-10 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="inline-block px-8 py-6 rounded-2xl bg-cyan-900/60 border border-cyan-400/30 shadow-xl shadow-cyan-500/20 backdrop-blur-md"
-        >
-          <h2 className="text-2xl md:text-3xl font-orbitron text-cyan-300 mb-2 tracking-wider">About MemeHustle</h2>
-          <p className="text-cyan-200 font-share-tech-mono text-lg max-w-2xl mx-auto">
-            This is a <span className="text-purple-400 font-bold">cyberpunk meme marketplace</span> demo project. Built with <span className="text-cyan-400 font-bold">React</span>, <span className="text-cyan-400 font-bold">Supabase</span>, <span className="text-cyan-400 font-bold">Socket.IO</span>, and <span className="text-cyan-400 font-bold">Gemini AI</span>.<br/>
-            <span className="text-cyan-400/70">Buy, sell, and bid on memes in real time. Experience the future of meme trading.</span>
-          </p>
-        </motion.div>
-      </section>
-
       {/* Subtle animated background effect */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-cyan-400/10 to-transparent blur-2xl" />
