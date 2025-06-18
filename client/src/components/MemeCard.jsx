@@ -76,10 +76,10 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
     await onVote(id, type);
   };
 
-  const cardMaxWidth = cardSize === 'duel' ? 'max-w-md' : 'max-w-xl';
-  const imgHeight = cardSize === 'duel' ? 'h-64' : 'h-80';
-  const imgMaxHeight = cardSize === 'duel' ? '18rem' : '22rem';
-  const imgMinHeight = cardSize === 'duel' ? '12rem' : '16rem';
+  const cardMaxWidth = cardSize === 'duel' ? 'max-w-xs sm:max-w-md' : 'max-w-md md:max-w-xl';
+  const imgHeight = cardSize === 'duel' ? 'h-48 sm:h-64' : 'h-56 sm:h-80';
+  const imgMaxHeight = cardSize === 'duel' ? '14rem' : '20rem';
+  const imgMinHeight = cardSize === 'duel' ? '8rem' : '12rem';
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -87,6 +87,7 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
       className={`bg-gray-900/50 backdrop-blur-sm rounded-2xl border-2 border-cyan-500/40
                  shadow-2xl shadow-cyan-500/30 overflow-hidden transition-all duration-300
                  w-full ${cardMaxWidth} mx-auto
+                 px-2 sm:px-4 py-4 sm:py-6
                  ${voteFlash === 'up' ? 'ring-4 ring-cyan-400' : ''}
                  ${voteFlash === 'down' ? 'ring-4 ring-purple-500' : ''}`}
     >
@@ -95,27 +96,27 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
           <img
             src={localMeme.image_url}
             alt={localMeme.title}
-            className={`w-full ${imgHeight} object-contain bg-black`}
+            className={`w-full ${imgHeight} object-contain bg-black rounded-xl`}
             style={{ maxHeight: imgMaxHeight, minHeight: imgMinHeight, background: '#181a2a' }}
           />
         ) : (
-          <GlitchPlaceholder width={cardSize === 'duel' ? 400 : 600} height={cardSize === 'duel' ? 220 : 320} />
+          <GlitchPlaceholder width={cardSize === 'duel' ? 300 : 400} height={cardSize === 'duel' ? 120 : 220} />
         )}
-        <div className="absolute top-2 right-2 bg-black/70 px-2 py-1 rounded text-cyan-400 font-share-tech-mono">
+        <div className="absolute top-2 right-2 bg-black/70 px-2 py-1 rounded text-cyan-400 font-share-tech-mono text-xs sm:text-sm">
           {localMeme.upvotes} votes
         </div>
       </div>
 
-      <div className="p-4">
-        <h3 className="text-xl font-orbitron text-cyan-400 mb-2">{localMeme.title}</h3>
+      <div className="p-2 sm:p-4">
+        <h3 className="text-lg sm:text-xl font-orbitron text-cyan-400 mb-2 truncate">{localMeme.title}</h3>
 
         <div className="space-y-2">
-          <p className="text-cyan-300 font-share-tech-mono text-sm">{localMeme.caption}</p>
+          <p className="text-cyan-300 font-share-tech-mono text-xs sm:text-sm">{localMeme.caption}</p>
           <p className="text-purple-400 font-share-tech-mono text-xs italic">{localMeme.vibe}</p>
           <button
             onClick={handleRegenerate}
             disabled={regenerating}
-            className="mt-2 px-3 py-1 bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-share-tech-mono rounded shadow hover:from-cyan-400 hover:to-purple-400 transition-all text-xs"
+            className="mt-2 px-2 sm:px-3 py-1 bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-share-tech-mono rounded shadow hover:from-cyan-400 hover:to-purple-400 transition-all text-xs"
           >
             {regenerating ? 'Regenerating...' : 'Regenerate Caption/Vibe'}
           </button>
@@ -133,13 +134,12 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
 
         <div className="mt-4 space-y-4">
           {/* Voting buttons */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-col sm:flex-row">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleVote(localMeme.id, 'up')}
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white
-                       font-orbitron py-2 rounded-lg shadow-lg shadow-cyan-500/20"
+              className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white font-orbitron py-2 rounded-lg shadow-lg shadow-cyan-500/20 text-sm sm:text-base"
             >
               ↑ Upvote
             </motion.button>
@@ -147,8 +147,7 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleVote(localMeme.id, 'down')}
-              className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white
-                       font-orbitron py-2 rounded-lg shadow-lg shadow-purple-500/20"
+              className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-orbitron py-2 rounded-lg shadow-lg shadow-purple-500/20 text-sm sm:text-base"
             >
               ↓ Downvote
             </motion.button>

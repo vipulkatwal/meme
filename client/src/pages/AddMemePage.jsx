@@ -2,7 +2,7 @@ import MemeForm from '../components/MemeForm';
 import { motion } from 'framer-motion';
 
 const AddMemePage = ({ createMeme }) => (
-  <div className="relative min-h-[80vh] flex flex-col items-center justify-center py-20 bg-gradient-to-b from-cyan-950/80 to-gray-950/90 overflow-hidden">
+  <div className="relative min-h-[80vh] flex flex-col items-center justify-center py-10 sm:py-20 bg-gradient-to-b from-cyan-950/80 to-gray-950/90 overflow-hidden w-full px-2">
     {/* Animated pulsing and rotating neon glow behind card */}
     <motion.div
       initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
@@ -12,14 +12,14 @@ const AddMemePage = ({ createMeme }) => (
         rotate: [0, 8, -8, 0],
       }}
       transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-cyan-400/30 via-cyan-400/10 to-purple-500/20 blur-3xl z-0 pointer-events-none"
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] md:w-[600px] h-[300px] sm:h-[400px] md:h-[600px] rounded-full bg-gradient-to-br from-cyan-400/30 via-cyan-400/10 to-purple-500/20 blur-3xl z-0 pointer-events-none"
     />
     {/* Hero-style heading */}
     <motion.h1
       initial={{ opacity: 0, y: -40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="text-6xl md:text-8xl font-orbitron text-cyan-400 mb-8 glitch drop-shadow-[0_0_16px_#00fff7]"
+      className="text-3xl sm:text-5xl md:text-7xl font-orbitron text-cyan-400 mb-4 sm:mb-8 glitch drop-shadow-[0_0_16px_#00fff7] text-center"
     >
       Add a New Meme
     </motion.h1>
@@ -27,7 +27,7 @@ const AddMemePage = ({ createMeme }) => (
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3, duration: 0.7 }}
-      className="text-cyan-200 font-share-tech-mono mb-10 text-xl md:text-2xl drop-shadow-[0_0_12px_#00fff7]"
+      className="text-cyan-200 font-share-tech-mono mb-6 sm:mb-10 text-base sm:text-xl md:text-2xl drop-shadow-[0_0_12px_#00fff7] text-center"
     >
       One meme can destabilize the feed. Make it yours.
     </motion.p>
@@ -36,7 +36,7 @@ const AddMemePage = ({ createMeme }) => (
       initial={{ opacity: 0, scale: 0.95, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.7, ease: 'easeOut' }}
-      className="relative z-10 w-full max-w-md rounded-2xl border-2 border-cyan-400/70 bg-gray-900/80 shadow-2xl shadow-cyan-500/40 p-8 backdrop-blur-xl"
+      className="relative z-10 w-full max-w-xs sm:max-w-md rounded-2xl border-2 border-cyan-400/70 bg-gray-900/80 shadow-2xl shadow-cyan-500/40 p-4 sm:p-8 backdrop-blur-xl"
       style={{ boxShadow: '0 0 48px #00fff7, 0 0 96px #a855f7' }}
     >
       <MemeForm onSubmit={createMeme} />

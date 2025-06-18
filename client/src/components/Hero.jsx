@@ -115,40 +115,42 @@ const Hero = () => {
   };
 
   return (
-    <section className="py-24 md:py-32 bg-gradient-to-b from-cyan-950/80 to-gray-950/90 text-center flex flex-col items-center" id="hero">
+    <section className="py-14 sm:py-20 md:py-32 bg-gradient-to-b from-cyan-950/80 to-gray-950/90 text-center flex flex-col items-center w-full px-2" id="hero">
       <h1
         ref={headlineRef}
-        className="text-7xl md:text-8xl font-orbitron text-cyan-400 mb-10 glitch drop-shadow-[0_0_32px_#00fff7] tracking-wider"
+        className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-orbitron text-cyan-400 mb-6 sm:mb-10 glitch drop-shadow-[0_0_32px_#00fff7] tracking-wider"
       >
         Welcome to MemeHustle
       </h1>
       <p
         ref={subRef}
-        className="text-3xl md:text-4xl font-share-tech-mono mb-20 bg-gradient-to-r from-cyan-300 via-purple-300 to-cyan-200 text-transparent bg-clip-text drop-shadow-[0_0_18px_#00fff7]"
+        className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-share-tech-mono mb-10 sm:mb-20 bg-gradient-to-r from-cyan-300 via-purple-300 to-cyan-200 text-transparent bg-clip-text drop-shadow-[0_0_18px_#00fff7]"
         style={{ WebkitTextStroke: '0.5px #00fff7' }}
       >
         Buy Low, Meme High. Because JPEGs Deserve a Fighting Chance Too.
       </p>
       <div
         ref={collageRef}
-        className="relative mx-auto mb-14 flex flex-wrap justify-center items-center gap-4 md:gap-0"
-        style={{ width: '95vw', maxWidth: 1200, minHeight: 220, height: 'auto' }}
+        className="relative mx-auto mb-8 sm:mb-14 flex flex-wrap justify-center items-center gap-2 sm:gap-4 md:gap-0"
+        style={{ width: '98vw', maxWidth: 1200, minHeight: isMobile ? 120 : 220, height: 'auto' }}
       >
-        {(isMobile ? images.slice(0, 4) : images).map((src, i) => (
+        {(isMobile ? images.slice(0, 2) : images).map((src, i) => (
           <img
             key={i}
             src={src}
             alt={`Meme collage image ${i + 1}`}
             className={`rounded-xl border-2 border-cyan-700/30 shadow-xl transition-all duration-300 object-cover bg-[#181a2a] ${
-              'w-40 h-40 md:w-56 md:h-56 ' + (i % 2 === 0 ? 'md:mt-8' : 'md:mb-8')
+              isMobile
+                ? 'w-24 h-24'
+                : 'w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 ' + (i % 2 === 0 ? 'md:mt-8' : 'md:mb-8')
             }`}
             style={{
               position: 'relative',
               zIndex: 2 + (i % 3),
               transform: `rotate(${collagePositions[i]?.rotate || 0}deg)`,
               boxShadow: '0 0 32px #00fff7, 0 0 64px #a855f7',
-              marginLeft: i === 0 ? 0 : -40,
-              marginRight: i === images.length - 1 ? 0 : -40,
+              marginLeft: i === 0 ? 0 : -20,
+              marginRight: i === images.length - 1 ? 0 : -20,
               transition: 'transform 0.3s, box-shadow 0.3s',
             }}
             loading="lazy"

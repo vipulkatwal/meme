@@ -50,6 +50,7 @@ const premiumCyberpunkStyles = `
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     // Add the premium styles to the document
@@ -69,9 +70,14 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [window.location.pathname])
+
   return (
     <nav
-      className={`relative flex items-center justify-between px-6 py-3 transition-all duration-500 z-50 ${
+      className={`relative flex items-center justify-between px-4 sm:px-6 py-3 transition-all duration-500 z-50 ${
         scrolled
           ? "bg-gradient-to-r from-cyan-900/90 via-cyan-900/95 to-cyan-900/90 backdrop-blur-lg"
           : "bg-gradient-to-r from-cyan-900/30 via-cyan-900/40 to-cyan-900/30 backdrop-blur-md"
@@ -101,7 +107,7 @@ const Navbar = () => {
       {/* Premium logo with enhanced effects */}
       <Link
         to="/"
-        className="relative font-orbitron text-2xl md:text-3xl text-cyan-300 tracking-widest select-none flex items-center gap-2 hover:text-cyan-400 transition-all duration-500 group"
+        className="relative font-orbitron text-xl sm:text-2xl md:text-3xl text-cyan-300 tracking-widest select-none flex items-center gap-2 hover:text-cyan-400 transition-all duration-500 group"
         style={{ animation: "subtle-float 4s ease-in-out infinite" }}
       >
         {/* Premium glow effect */}
@@ -141,8 +147,19 @@ const Navbar = () => {
         <div className="absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 border-cyan-400/60 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-0 group-hover:scale-100" />
       </Link>
 
+      {/* Hamburger menu for mobile */}
+      <button
+        className="sm:hidden flex flex-col items-center justify-center w-10 h-10 rounded-md border border-cyan-400/30 bg-cyan-900/40 hover:bg-cyan-900/60 transition-all z-20"
+        onClick={() => setMenuOpen((open) => !open)}
+        aria-label="Open navigation menu"
+      >
+        <span className={`block w-6 h-0.5 bg-cyan-300 rounded transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+        <span className={`block w-6 h-0.5 bg-cyan-300 rounded my-1 transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`}></span>
+        <span className={`block w-6 h-0.5 bg-cyan-300 rounded transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+      </button>
+
       {/* Premium navigation with enhanced effects */}
-      <div className="flex gap-8 md:gap-14 font-share-tech-mono text-cyan-200 text-base md:text-lg items-center">
+      <div className={`hidden sm:flex gap-8 md:gap-14 font-share-tech-mono text-cyan-200 text-base md:text-lg items-center`}>
         {/* Trending Now - Premium Style */}
         <Link
           to="/trending"
@@ -286,6 +303,24 @@ const Navbar = () => {
           <div className="absolute bottom-0 left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-purple-400 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
         </Link>
       </div>
+
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-cyan-900/95 border-b-2 border-cyan-400/30 shadow-lg flex flex-col items-center gap-2 py-4 z-40 sm:hidden animate-fade-in">
+          <Link to="/trending" className="w-full text-center py-2 text-cyan-200 hover:text-orange-400 font-orbitron" onClick={() => setMenuOpen(false)}>
+            <FaFire className="inline mr-2 text-orange-400" /> Trending Now
+          </Link>
+          <Link to="/leaderboard" className="w-full text-center py-2 text-cyan-200 hover:text-yellow-400 font-orbitron" onClick={() => setMenuOpen(false)}>
+            <FaTrophy className="inline mr-2 text-yellow-400" /> Leaderboard
+          </Link>
+          <Link to="/add-meme" className="w-full text-center py-2 text-cyan-200 hover:text-green-400 font-orbitron" onClick={() => setMenuOpen(false)}>
+            <FaPlus className="inline mr-2 text-green-400" /> Add Meme
+          </Link>
+          <Link to="/about" className="w-full text-center py-2 text-cyan-200 hover:text-purple-400 font-orbitron" onClick={() => setMenuOpen(false)}>
+            <FaInfoCircle className="inline mr-2 text-purple-400" /> About
+          </Link>
+        </div>
+      )}
 
       {/* Premium decorative elements */}
       <div className="absolute -bottom-1 left-0 right-0 h-[2px]">
