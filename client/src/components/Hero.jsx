@@ -38,10 +38,10 @@ const Hero = () => {
     gsap.fromTo(headlineRef.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' });
     const glitch = gsap.timeline({ repeat: -1, repeatDelay: 2 });
     glitch
-      .to(headlineRef.current, { textShadow: '0 0 24px #00fff7, 0 0 48px #a855f7', duration: 0.08, y: -2, x: 2 })
-      .to(headlineRef.current, { textShadow: '0 0 12px #00fff7', duration: 0.08, y: 0, x: 0 })
-      .to(headlineRef.current, { textShadow: '0 0 32px #a855f7', duration: 0.06, y: 1, x: -2 })
-      .to(headlineRef.current, { textShadow: '0 0 12px #00fff7', duration: 0.1, y: 0, x: 0 });
+      .to(headlineRef.current, { textShadow: '0 0 24px #00fff7, 0 0 48px #a855f7', duration: 0.16 })
+      .to(headlineRef.current, { textShadow: '0 0 12px #00fff7', duration: 0.16 })
+      .to(headlineRef.current, { textShadow: '0 0 32px #a855f7', duration: 0.12 })
+      .to(headlineRef.current, { textShadow: '0 0 16px #00fff7', duration: 0.18 });
 
     gsap.fromTo(subRef.current, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.5, ease: 'power2.out' });
 
