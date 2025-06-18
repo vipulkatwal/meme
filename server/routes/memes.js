@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../services/supabaseClient");
-const { generateCaption, canUseGemini } = require("../services/geminiClient");
+const {
+	generateCaption,
+	generateVibe,
+	canUseGemini,
+} = require("../services/geminiClient");
 
 // Create a new meme
 router.post("/", async (req, res) => {
@@ -13,8 +17,9 @@ router.post("/", async (req, res) => {
 				.json({ error: "Rate limit exceeded for AI generation." });
 		}
 
-		// Generate caption using Gemini
+		// Generate caption and vibe using Gemini
 		const caption = await generateCaption(tags);
+		const vibe = await generateVibe(tags);
 
 		const { data, error } = await supabase
 			.from("memes")
@@ -24,7 +29,7 @@ router.post("/", async (req, res) => {
 					image_url: image_url || "https://via.placeholder.com/400x300",
 					tags,
 					caption,
-					vibe: "Neon Crypto Chaos", // Default vibe
+					vibe,
 					upvotes: 0,
 					owner_id: "cyberpunk420", // Hardcoded as per requirements
 				},
@@ -179,8 +184,7 @@ router.post("/:id/caption", async (req, res) => {
 
 		// Generate caption and vibe
 		const caption = await generateCaption(tags);
-		// For now, use a static vibe or extend geminiClient for vibe
-		const vibe = "Neon Crypto Chaos";
+		const vibe = await generateVibe(tags);
 
 		// Update meme with caption and vibe
 		const { data: updatedMeme, error: updateError } = await supabase

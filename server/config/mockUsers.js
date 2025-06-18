@@ -1,4 +1,3 @@
-// Assign a random mock user to this client if not already assigned
 const mockUsers = [
 	{
 		id: "cyberpunk420",
@@ -62,14 +61,4 @@ const mockUsers = [
 	},
 ];
 
-export function getUser() {
-	let user = null;
-	try {
-		user = JSON.parse(localStorage.getItem("mockUser"));
-	} catch {}
-	if (!user) {
-		user = mockUsers[Math.floor(Math.random() * mockUsers.length)];
-		localStorage.setItem("mockUser", JSON.stringify(user));
-	}
-	return user;
-}
+module.exports = mockUsers;

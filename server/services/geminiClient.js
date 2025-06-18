@@ -31,6 +31,35 @@ const RETRY_DELAY = 1000;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Fallback pools
+const fallbackCaptions = [
+	"To the moon! 🚀",
+	"404 Meme Not Found",
+	"HODL your memes!",
+	"Neon dreams, meme schemes.",
+	"When in doubt, meme it out.",
+	"Viral in the cyber-void.",
+	"Upload, upvote, up only!",
+	"Meme like nobody's watching.",
+	"Zero chill, full meme.",
+	"AI says: Nice meme!",
+];
+const fallbackVibes = [
+	"Neon Crypto Chaos",
+	"Retro Meme Energy",
+	"Quantum LOLs",
+	"Pixel Punk Fever",
+	"Stonks & Giggles",
+	"Vaporwave Mischief",
+	"Hackercore Humor",
+	"Electric Meme Dream",
+	"Byte-sized Banter",
+	"Glowing Memeverse",
+];
+function randomFrom(arr) {
+	return arr[Math.floor(Math.random() * arr.length)];
+}
+
 async function generateWithRetry(prompt, retries = MAX_RETRIES) {
 	try {
 		const response = await axios.post(
@@ -57,15 +86,15 @@ async function generateCaption(tags) {
 		return captionCache.get(cacheKey);
 	}
 	try {
-		const prompt = `Write a funny, cyberpunk-themed meme caption for a meme with these tags: ${tags.join(
+		const prompt = `Write a single, short, witty, original cyberpunk meme caption (not a list, not options, not markdown, no formatting) for a meme with these tags: ${tags.join(
 			", "
-		)}. Keep it short, witty, and under 100 characters.`;
+		)}. Make it creative and under 100 characters. Do NOT return a list, options, or markdown.`;
 		const caption = await generateWithRetry(prompt);
 		captionCache.set(cacheKey, caption);
-		return caption || "To the moon! 🚀";
+		return caption || randomFrom(fallbackCaptions);
 	} catch (error) {
 		console.error("Error generating caption:", error);
-		return "To the moon! 🚀";
+		return randomFrom(fallbackCaptions);
 	}
 }
 
@@ -75,15 +104,15 @@ async function generateVibe(tags) {
 		return vibeCache.get(cacheKey);
 	}
 	try {
-		const prompt = `Describe the cyberpunk vibe of a meme with these tags: ${tags.join(
+		const prompt = `Describe the unique cyberpunk vibe of a meme with these tags: ${tags.join(
 			", "
-		)}. Keep it short and atmospheric, under 50 characters.`;
+		)}. Be creative, use fresh words, and keep it under 50 characters. Do not always use the word 'glitch'.`;
 		const vibe = await generateWithRetry(prompt);
 		vibeCache.set(cacheKey, vibe);
-		return vibe || "Neon Crypto Chaos";
+		return vibe || randomFrom(fallbackVibes);
 	} catch (error) {
 		console.error("Error generating vibe:", error);
-		return "Neon Crypto Chaos";
+		return randomFrom(fallbackVibes);
 	}
 }
 

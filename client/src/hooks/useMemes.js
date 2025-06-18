@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../services/supabaseClient";
 import { socket } from "../services/socketClient";
-import { getUserId } from "../utils/userId";
+import { getUser } from "../utils/userId";
 
 export function useMemes() {
 	const [memes, setMemes] = useState([]);
@@ -27,10 +27,10 @@ export function useMemes() {
 				prev.map((meme) => (meme.id === meme_id ? { ...meme, upvotes } : meme))
 			);
 		});
-		socket.on("bid_update", ({ meme_id, highest_bid }) => {
+		socket.on("bid_update", ({ meme_id, highest_bid, highest_bidder }) => {
 			setMemes((prev) =>
 				prev.map((meme) =>
-					meme.id === meme_id ? { ...meme, highest_bid } : meme
+					meme.id === meme_id ? { ...meme, highest_bid, highest_bidder } : meme
 				)
 			);
 		});
@@ -67,11 +67,13 @@ export function useMemes() {
 
 	// Place bid
 	const bidMeme = (memeId, credits) => {
-		const user_id = getUserId();
+		const user = getUser();
 		socket.emit("place_bid", {
 			meme_id: memeId,
 			credits,
-			user_id,
+			user_id: user.id,
+			user_name: user.name,
+			user_avatar: user.avatar,
 		});
 	};
 

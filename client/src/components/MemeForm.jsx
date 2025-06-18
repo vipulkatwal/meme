@@ -27,7 +27,7 @@ const MemeForm = ({ onSubmit }) => {
       className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg border border-cyan-500/30 shadow-lg shadow-cyan-500/20"
     >
       <h2 className="text-2xl font-orbitron text-cyan-400 mb-6 tracking-wider">
-        CREATE NEW MEME
+        DEPLOY MEME BOMB
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">

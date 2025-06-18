@@ -146,7 +146,12 @@ const MemeCard = ({ meme, onVote, onBid }) => {
           </div>
 
           {/* Bidding section */}
-          <BidPanel memeId={localMeme.id} currentHighestBid={localMeme.highest_bid || 0} onBid={onBid} />
+          <BidPanel
+            memeId={localMeme.id}
+            currentHighestBid={localMeme.highest_bid || 0}
+            highestBidder={localMeme.highest_bidder}
+            onBid={onBid}
+          />
         </div>
       </div>
     </motion.div>
