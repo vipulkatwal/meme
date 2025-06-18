@@ -41,7 +41,7 @@ function App() {
   });
 
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="min-h-screen bg-gray-950 text-white p-0 md:p-0">
         <Navbar />
         <Routes>

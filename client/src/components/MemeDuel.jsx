@@ -21,6 +21,9 @@ const MemeDuel = () => {
 
   const handleVote = (id, type) => {
     voteMeme(id, type);
+  };
+
+  const handleNextDuel = () => {
     setPair(getRandomPair(memes));
   };
 
@@ -30,6 +33,12 @@ const MemeDuel = () => {
     <div className="relative flex flex-col items-center justify-center my-16">
       {/* Animated glowing divider */}
       <div className="w-full h-1 bg-gradient-to-r from-cyan-400/0 via-cyan-400/60 to-cyan-400/0 blur-md mb-12 animate-pulse" />
+      <button
+        onClick={handleNextDuel}
+        className="mb-8 px-6 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-orbitron shadow-lg hover:from-cyan-400 hover:to-purple-400 transition-all text-lg"
+      >
+        Next Duel
+      </button>
       <div className="w-full flex flex-col md:flex-row gap-12 md:gap-16 items-center justify-center">
         <div className="flex-1 flex min-h-[420px] max-w-md mx-auto">
           <MemeCard meme={pair[0]} onVote={handleVote} onBid={bidMeme} cardSize="duel" />

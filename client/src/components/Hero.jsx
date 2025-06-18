@@ -37,16 +37,18 @@ const Hero = () => {
 
   // GSAP entrance and floating
   useEffect(() => {
-    gsap.fromTo(headlineRef.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' });
-    const glitch = gsap.timeline({ repeat: -1, repeatDelay: 2 });
-    glitch
-      .to(headlineRef.current, { textShadow: '0 0 24px #00fff7, 0 0 48px #a855f7', duration: 0.16 })
-      .to(headlineRef.current, { textShadow: '0 0 12px #00fff7', duration: 0.16 })
-      .to(headlineRef.current, { textShadow: '0 0 32px #a855f7', duration: 0.12 })
-      .to(headlineRef.current, { textShadow: '0 0 16px #00fff7', duration: 0.18 });
-
-    gsap.fromTo(subRef.current, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.5, ease: 'power2.out' });
-
+    if (headlineRef.current) {
+      gsap.fromTo(headlineRef.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' });
+      const glitch = gsap.timeline({ repeat: -1, repeatDelay: 2 });
+      glitch
+        .to(headlineRef.current, { textShadow: '0 0 24px #00fff7, 0 0 48px #a855f7', duration: 0.16 })
+        .to(headlineRef.current, { textShadow: '0 0 12px #00fff7', duration: 0.16 })
+        .to(headlineRef.current, { textShadow: '0 0 32px #a855f7', duration: 0.12 })
+        .to(headlineRef.current, { textShadow: '0 0 16px #00fff7', duration: 0.18 });
+    }
+    if (subRef.current) {
+      gsap.fromTo(subRef.current, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.5, ease: 'power2.out' });
+    }
     if (collageRef.current) {
       Array.from(collageRef.current.children).forEach((img, i) => {
         gsap.fromTo(img, {
@@ -65,17 +67,20 @@ const Hero = () => {
         });
       });
     }
-
-    gsap.to(btnRef.current, {
-      boxShadow: '0 0 32px #00fff7, 0 0 64px #a855f7',
-      repeat: -1,
-      yoyo: true,
-      duration: 1.2,
-      ease: 'power1.inOut'
-    });
-
+    if (btnRef.current) {
+      gsap.to(btnRef.current, {
+        boxShadow: '0 0 32px #00fff7, 0 0 64px #a855f7',
+        repeat: -1,
+        yoyo: true,
+        duration: 1.2,
+        ease: 'power1.inOut'
+      });
+    }
     return () => {
-      glitch.kill();
+      // Only kill glitch if it was created
+      if (headlineRef.current && gsap.getTweensOf(headlineRef.current).length > 0) {
+        gsap.killTweensOf(headlineRef.current);
+      }
     };
   }, [images]);
 
