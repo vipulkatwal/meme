@@ -32,7 +32,7 @@ const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setImages(imageFiles.map(file => `/src/assets/${file}`));
+    setImages(imageFiles.map(file => `/assets/${file}`));
   }, []);
 
   // GSAP entrance and floating
