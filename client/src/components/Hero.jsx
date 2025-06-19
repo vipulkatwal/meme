@@ -3,8 +3,8 @@ import gsap from 'gsap';
 import { FaRocket } from 'react-icons/fa';
 
 const imageFiles = [
-  '1.png', '2.png', '3.jpg', '4.png', '5.jpg', '6.jpg',
-  '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.png'
+  '/assets/1.png', '/assets/2.png', '/assets/3.jpg', '/assets/4.png', '/assets/5.jpg', '/assets/6.jpg',
+  '/assets/7.jpg', '/assets/8.jpg', '/assets/9.jpg', '/assets/10.jpg', '/assets/11.jpg', '/assets/12.png'
 ];
 
 // More spaced-out, less overlapping positions
@@ -32,7 +32,7 @@ const Hero = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setImages(imageFiles.map(file => `/assets/${file}`));
+    setImages(imageFiles);
   }, []);
 
   // GSAP entrance and floating
