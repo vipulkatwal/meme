@@ -1,6 +1,6 @@
 # MemeHustle 🚀
 
-Welcome to **MemeHustle** — the futuristic meme trading platform where you can buy, sell, and battle memes in real time! JPEGs finally get the respect (and market) they deserve.
+Welcome to **MemeHustle** — the futuristic meme trading platform where you can bid, and battle memes in real time! JPEGs finally get the respect (and market) they deserve.
 
 ---
 
