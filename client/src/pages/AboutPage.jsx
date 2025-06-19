@@ -15,7 +15,7 @@ const AboutPage = () => (
       initial={{ opacity: 0, y: -40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-orbitron text-cyan-400 mb-6 sm:mb-8 glitch drop-shadow-[0_0_32px_#00fff7] text-center tracking-widest"
+      className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-orbitron text-cyan-400 mb-6 sm:mb-8 glitch drop-shadow-[0_0_32px_#00fff7] text-center tracking-widest"
     >
       About MemeHustle
     </motion.h1>
@@ -27,7 +27,7 @@ const AboutPage = () => (
       className="max-w-2xl w-full bg-cyan-900/60 border border-cyan-400/30 rounded-2xl shadow-2xl shadow-cyan-500/30 backdrop-blur-md p-4 sm:p-8 mb-8 sm:mb-12 text-center"
     >
       <p className="text-cyan-200 font-share-tech-mono text-base sm:text-xl md:text-2xl mb-3 sm:mb-4">
-        <span className="text-purple-400 font-bold">MemeHustle</span> where memes aren’t just jokes, they’re financial instruments of pure stupidity.
+        <span className="text-purple-400 font-bold">MemeHustle</span> where memes aren't just jokes, they're financial instruments of pure stupidity.
       </p>
       <p className="text-cyan-300 font-orbitron text-sm sm:text-lg mb-2">
         It is neon-lit marketplace where your low-effort shitpost could spark a bidding war, and a cursed JPEG might bankrupt a crypto bro.

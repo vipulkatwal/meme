@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext, useRef } from 'react';
 import { motion } from 'framer-motion';
 import MemeForm from './components/MemeForm';
 import MemeCard from './components/MemeCard';
@@ -13,6 +13,107 @@ import AddMemePage from './pages/AddMemePage';
 import TrendingPage from './pages/TrendingPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import AboutPage from './pages/AboutPage';
+import { FaArrowUp, FaArrowDown, FaUpload, FaCoins, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+
+// Toast context and provider
+const ToastContext = createContext();
+
+function ToastProvider({ children }) {
+  const [toasts, setToasts] = useState([]);
+  const toastId = useRef(0);
+
+  const showToast = (message, type = 'info') => {
+    const id = toastId.current++;
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 2200);
+  };
+
+  // Icon and color per type (inspired by your screenshot)
+  const toastIcon = (type) => {
+    switch (type) {
+      case 'success': return <FaCheckCircle className="text-emerald-400" size={15} />;
+      case 'upvote': return <FaArrowUp className="text-cyan-400" size={15} />;
+      case 'downvote': return <FaArrowDown className="text-purple-400" size={15} />;
+      case 'upload': return <FaUpload className="text-blue-400" size={15} />;
+      case 'bid': return <FaCoins className="text-[#ffb300]" size={15} />;
+      case 'error': return <FaExclamationTriangle className="text-red-400" size={15} />;
+      default: return <FaCheckCircle className="text-slate-400" size={15} />;
+    }
+  };
+  const toastBorder = (type) => {
+    switch (type) {
+      case 'success': return 'border-emerald-400/70';
+      case 'upvote': return 'border-cyan-400/70';
+      case 'downvote': return 'border-purple-400/70';
+      case 'upload': return 'border-blue-400/70';
+      case 'bid': return 'border-[#ffb300]';
+      case 'error': return 'border-red-400/70';
+      default: return 'border-slate-400/70';
+    }
+  };
+  const toastBg = (type) => {
+    switch (type) {
+      case 'success': return 'bg-emerald-950/90';
+      case 'upvote': return 'bg-cyan-950/90';
+      case 'downvote': return 'bg-purple-950/90';
+      case 'upload': return 'bg-blue-950/90';
+      case 'bid': return 'bg-[#181f2a]/95';
+      case 'error': return 'bg-red-950/90';
+      default: return 'bg-slate-950/90';
+    }
+  };
+  const toastText = (type) => {
+    switch (type) {
+      case 'success': return 'text-emerald-100';
+      case 'upvote': return 'text-cyan-100';
+      case 'downvote': return 'text-purple-100';
+      case 'upload': return 'text-blue-100';
+      case 'bid': return 'text-[#ffb300]';
+      case 'error': return 'text-red-100';
+      default: return 'text-slate-100';
+    }
+  };
+
+  return (
+    <ToastContext.Provider value={showToast}>
+      {children}
+      <div className="fixed top-7 right-4 z-[99999] flex flex-col gap-2 items-end pointer-events-none">
+        {toasts.map((toast) => (
+          <div
+            key={toast.id}
+            className={`animate-toast-in ${toastBg(toast.type)} backdrop-blur-md shadow-md rounded-xl px-4 py-2 min-w-[180px] max-w-[340px] font-orbitron text-sm pointer-events-auto select-none flex items-center gap-2 border ${toastBorder(toast.type)} ${toastText(toast.type)} ${toast.type === 'bid' ? 'shadow-[0_2px_16px_0_#ffb30055] border-2' : ''}`}
+            style={{
+              boxShadow: '0 2px 12px 0 rgba(0,0,0,0.12)',
+              letterSpacing: '0.01em',
+              fontWeight: 500,
+              borderWidth: 1,
+            }}
+          >
+            <span className="flex-shrink-0 flex items-center justify-center opacity-80" style={{marginTop: 1}}>
+              {toastIcon(toast.type)}
+            </span>
+            <span className="flex-1 text-left">{toast.message}</span>
+          </div>
+        ))}
+      </div>
+      <style>{`
+        @keyframes toast-in {
+          from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-toast-in {
+          animation: toast-in 0.28s cubic-bezier(0.4,0,0.2,1);
+        }
+      `}</style>
+    </ToastContext.Provider>
+  );
+}
+
+export function useToast() {
+  return useContext(ToastContext);
+}
 
 function PremiumLoader() {
   const [percent, setPercent] = useState(0);
@@ -134,7 +235,7 @@ function App() {
   });
 
   return (
-    <>
+    <ToastProvider>
       {loadingScreen && <PremiumLoader />}
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <div className="min-h-screen bg-gray-950 text-white p-0 md:p-0">
@@ -202,7 +303,7 @@ function App() {
           `}</style>
         </footer>
       </Router>
-    </>
+    </ToastProvider>
   );
 }
 

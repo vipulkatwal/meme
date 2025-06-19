@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useToast } from '../App';
 
 const BidPanel = ({ memeId, currentHighestBid = 0, highestBidder, onBid }) => {
   const [bidAmount, setBidAmount] = useState('');
   const [loading, setLoading] = useState(false);
   const [flash, setFlash] = useState(false);
   const prevBid = useRef(currentHighestBid);
+  const showToast = useToast();
 
   useEffect(() => {
     if (currentHighestBid !== prevBid.current) {
@@ -24,7 +26,16 @@ const BidPanel = ({ memeId, currentHighestBid = 0, highestBidder, onBid }) => {
       return;
     }
     setLoading(true);
-    Promise.resolve(onBid(memeId, credits)).finally(() => setLoading(false));
+    Promise.resolve(onBid(memeId, credits)).then(() => {
+      // Funny toast
+      const messages = [
+        'Bid placed! You just flexed your meme wallet.',
+        'You just outbid a crypto bro.',
+        'Bidding war initiated. May the best meme win!',
+        'Your credits are now in meme battle mode!'
+      ];
+      showToast(messages[Math.floor(Math.random() * messages.length)], 'bid');
+    }).finally(() => setLoading(false));
     setBidAmount('');
   };
 

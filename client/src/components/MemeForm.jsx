@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useToast } from '../App';
 
 const MemeForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -7,12 +8,21 @@ const MemeForm = ({ onSubmit }) => {
     image_url: '',
     tags: ''
   });
+  const showToast = useToast();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const tags = formData.tags.split(',').map(tag => tag.trim());
     onSubmit({ ...formData, tags });
     setFormData({ title: '', image_url: '', tags: '' });
+    // Funny toast
+    const messages = [
+      'Meme deployed! The internet trembles.',
+      'Upload complete. May the memes be ever in your favor!',
+      'You just dropped a meme bomb.',
+      'A wild meme appears!'
+    ];
+    showToast(messages[Math.floor(Math.random() * messages.length)], 'success');
   };
 
   const handleChange = (e) => {

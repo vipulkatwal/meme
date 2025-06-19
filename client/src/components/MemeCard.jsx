@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useSocket } from '../hooks/useSocket';
 import BidPanel from './BidPanel';
 import GlitchPlaceholder from './GlitchPlaceholder';
+import { useToast } from '../App';
 
 const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
   const [bidAmount, setBidAmount] = useState('');
@@ -11,6 +12,7 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
   const [localMeme, setLocalMeme] = useState(meme);
   const [voteFlash, setVoteFlash] = useState(null); // 'up' or 'down'
   const socket = useSocket();
+  const showToast = useToast();
 
   useEffect(() => {
     if (!socket) return;
@@ -74,6 +76,24 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
     setVoteFlash(type);
     setTimeout(() => setVoteFlash(null), 400);
     await onVote(id, type);
+    // Funny toast
+    if (type === 'up') {
+      const upMsgs = [
+        'Upvoted! This meme just got a little more legendary.',
+        'You blessed this meme with your cyberpunk approval.',
+        'Meme power level increased!',
+        'You just injected pure win into this meme.'
+      ];
+      showToast(upMsgs[Math.floor(Math.random() * upMsgs.length)], 'success');
+    } else {
+      const downMsgs = [
+        'Downvoted! Meme sent to the shadow realm.',
+        'Oof, that meme felt your wrath.',
+        'You just gave this meme a reality check.',
+        'Downvote delivered. Meme is re-evaluating its life choices.'
+      ];
+      showToast(downMsgs[Math.floor(Math.random() * downMsgs.length)], 'error');
+    }
   };
 
   const cardMaxWidth = cardSize === 'duel' ? 'max-w-xs sm:max-w-md' : 'max-w-md md:max-w-xl';
