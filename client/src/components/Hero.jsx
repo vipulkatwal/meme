@@ -3,8 +3,8 @@ import gsap from 'gsap';
 import { FaRocket } from 'react-icons/fa';
 
 const imageFiles = [
-  '/assets/1.png', '/assets/2.png', '/assets/3.jpg', '/assets/4.png', '/assets/5.jpg', '/assets/6.jpg',
-  '/assets/7.jpg', '/assets/8.jpg', '/assets/9.jpg', '/assets/10.jpg', '/assets/11.jpg', '/assets/12.png'
+  '/assets/1.webp', '/assets/2.webp', '/assets/3.webp', '/assets/4.webp', '/assets/5.webp', '/assets/6.webp',
+  '/assets/7.webp', '/assets/8.webp', '/assets/9.webp', '/assets/10.webp', '/assets/11.webp', '/assets/12.webp'
 ];
 
 // More spaced-out, less overlapping positions
