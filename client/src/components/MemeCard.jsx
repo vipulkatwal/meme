@@ -5,6 +5,8 @@ import BidPanel from './BidPanel';
 import GlitchPlaceholder from './GlitchPlaceholder';
 import { useToast } from '../App';
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
   const [bidAmount, setBidAmount] = useState('');
   const [currentHighestBid, setCurrentHighestBid] = useState(0);
@@ -59,7 +61,7 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
   const handleRegenerate = async () => {
     setRegenerating(true);
     try {
-      const response = await fetch(`http://localhost:3000/api/memes/${meme.id}/caption`, {
+      const response = await fetch(`${API_URL}/api/memes/${meme.id}/caption`, {
         method: 'POST',
       });
       if (!response.ok) throw new Error('Failed to regenerate caption/vibe');
