@@ -74,7 +74,7 @@ const TrendingPage = () => {
             )}
           </div>
           {/* Sidebar */}
-          <div className="lg:col-span-1 w-full mt-10 lg:mt-0" id="leaderboard">
+          <div className="lg:col-span-1 w-full mt-10 lg:mt-0 ml-12" id="leaderboard">
             <div className="sticky top-24 w-full max-w-md mx-auto lg:max-w-none">
               <Leaderboard />
             </div>
