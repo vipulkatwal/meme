@@ -3,7 +3,7 @@ import { supabase } from "../services/supabaseClient";
 import { socket } from "../services/socketClient";
 import { getUser, mockUsers } from "../utils/userId";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export function useMemes() {
 	const [memes, setMemes] = useState([]);

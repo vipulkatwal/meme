@@ -15,7 +15,7 @@ function shuffle(array) {
   return arr;
 }
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const LeaderboardPage = () => {
   const [leaderboard, setLeaderboard] = useState([]);
