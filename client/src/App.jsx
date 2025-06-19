@@ -238,7 +238,14 @@ function App() {
   const [typedSubtitle, setTypedSubtitle] = useState('');
   const [search, setSearch] = useState('');
   const subtitle = 'The Future of Meme Trading';
-  const [loadingScreen, setLoadingScreen] = useState(true);
+  // Only show the loading screen on a full page reload (once per browser session)
+  const [loadingScreen, setLoadingScreen] = useState(() => {
+    if (!window.sessionStorage.getItem('loaderShown')) {
+      window.sessionStorage.setItem('loaderShown', 'true');
+      return true;
+    }
+    return false;
+  });
 
   useEffect(() => {
     let i = 0;

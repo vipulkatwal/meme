@@ -9,15 +9,25 @@ const rateLimit = require("express-rate-limit");
 
 const app = express();
 const httpServer = createServer(app);
+const allowedOrigins = [
+	process.env.CLIENT_URL || "http://localhost:5173",
+	"http://localhost:5173",
+];
 const io = new Server(httpServer, {
 	cors: {
-		origin: process.env.CLIENT_URL || "http://localhost:5173",
+		origin: allowedOrigins,
 		methods: ["GET", "POST"],
+		credentials: true,
 	},
 });
 
 // Middleware
-app.use(cors());
+app.use(
+	cors({
+		origin: allowedOrigins,
+		credentials: true,
+	})
+);
 app.use(express.json());
 
 // Global rate limiter (100 requests per 15 minutes per IP)
