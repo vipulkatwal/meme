@@ -15,6 +15,8 @@ function shuffle(array) {
   return arr;
 }
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 const LeaderboardPage = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +24,7 @@ const LeaderboardPage = () => {
   useEffect(() => {
     async function fetchLeaderboard() {
       setLoading(true);
-      const response = await fetch('http://localhost:3000/api/memes/leaderboard/bids');
+      const response = await fetch(`${API_URL}/api/memes/leaderboard/bids`);
       if (response.ok) {
         const data = await response.json();
         setLeaderboard(data);
