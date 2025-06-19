@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import MemeCard from '../components/MemeCard';
 import Leaderboard from '../components/Leaderboard';
 import { useMemes } from '../hooks/useMemes';
+import { FiSearch } from 'react-icons/fi';
 
 const TrendingPage = () => {
   const { memes, loading, voteMeme, bidMeme } = useMemes();
@@ -39,7 +40,9 @@ const TrendingPage = () => {
             placeholder="Search memes by title or tag..."
             className="flex-1 bg-transparent border-none outline-none text-cyan-100 font-share-tech-mono text-base sm:text-lg placeholder-cyan-400"
           />
-          <span className="text-cyan-400/70 font-orbitron text-base">🔍</span>
+          <span className="text-cyan-400/80 font-orbitron text-2xl flex items-center justify-center" style={{textShadow: '0 0 6px #22d3ee88, 0 0 2px #00fff7'}}>
+            <FiSearch size={26} />
+          </span>
         </div>
       </div>
 

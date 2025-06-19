@@ -120,11 +120,10 @@ function PremiumLoader() {
   const [logStep, setLogStep] = useState(0);
   const [done, setDone] = useState(false);
   const logs = [
-    'Establishing secure connection . . .',
-    'Scanning for vulnerabilities . . .',
     'Loading user interface . . .',
-    'Executing startup procedures . . .',
-    'Initializing database connections . . .',
+    'Summoning the meme gods . . .',
+    'Optimizing dankness levels . . .',
+    'Almost there, don\'t rage quit! . . .',
   ];
 
   useEffect(() => {
@@ -134,7 +133,7 @@ function PremiumLoader() {
     setLogStep(0);
     setDone(false);
     const interval = setInterval(() => {
-      p += 2 + Math.random() * 6;
+      p += 1.2 + Math.random() * 3.5;
       if (p > 100) p = 100;
       setPercent(Math.floor(p));
       if (l < logs.length && p > (l + 1) * (100 / logs.length)) {
@@ -142,7 +141,7 @@ function PremiumLoader() {
         setLogStep(l);
       }
       if (p === 100) {
-        setTimeout(() => setDone(true), 500);
+        setTimeout(() => setDone(true), 1100);
         clearInterval(interval);
       }
     }, 90);
@@ -151,25 +150,24 @@ function PremiumLoader() {
 
   return (
     <div className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black transition-opacity duration-700 ${done ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ pointerEvents: done ? 'none' : 'auto' }}>
-      <div className="w-full max-w-2xl mx-auto px-2 sm:px-8 flex flex-col items-center">
-        {/* Loader Title */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="matrix-rain w-full h-full absolute inset-0 opacity-30" />
+      </div>
+      <div className="w-full max-w-2xl mx-auto px-2 sm:px-8 flex flex-col items-center z-10">
         <div className="flex items-center w-full mb-2">
-          <p className="loading-text text-lg sm:text-2xl font-orbitron tracking-[0.3em] text-white drop-shadow-[0_0_8px_#00fff7]">LOADING</p>
+          <p className="loading-text-glitch text-lg sm:text-2xl font-orbitron tracking-[0.3em] text-white drop-shadow-[0_0_8px_#00fff7]">LOADING</p>
           <div className="therefore text-2xl ml-2 animate-therefore" style={{color:'#b5eaff', textShadow:'0 0 8px #00fff7'}}>
             ∴
           </div>
-          <p className="loading-number ml-auto text-lg sm:text-2xl font-orbitron text-white" style={{minWidth: '3.5rem'}}>{percent}%</p>
+          <p className="loading-number-glitch ml-auto text-lg sm:text-2xl font-orbitron text-white" style={{minWidth: '3.5rem'}}>{percent}%</p>
         </div>
-        {/* Progress Bar */}
         <div className="w-full bg-white/10 rounded border-t border-b border-white/40 py-1 px-1 mb-2">
           <div className="loading-bar h-2 bg-gradient-to-r from-cyan-300 via-purple-300 to-blue-400 rounded transition-all duration-300 shadow-lg" style={{width: `${percent}%`}} />
         </div>
-        {/* Caution Message */}
         <div className="flex items-center mt-2 mb-2 w-full">
           <div className="exclamation w-6 h-6 flex items-center justify-center bg-white text-black rounded mr-2 font-bold text-base shadow">!</div>
           <span className="font-orbitron text-xs sm:text-base text-white tracking-wide">CAUTION, Do not turn off.</span>
         </div>
-        {/* Terminal log lines */}
         <div className="w-full flex flex-col items-end mt-6">
           {logs.slice(0, logStep).map((line, i) => (
             <div key={i} className="font-share-tech-mono text-xs sm:text-sm md:text-base text-right text-gray-300/90 mb-1 animate-logline" style={{textShadow:'0 0 8px #00fff7'}}>
@@ -196,6 +194,40 @@ function PremiumLoader() {
         .loading-bar {
           transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
         }
+        .loading-text-glitch, .loading-number-glitch {
+          position: relative;
+          color: #b5eaff;
+          text-shadow: 0 0 8px #00fff7, 2px 0 #00fff7, -2px 0 #a855f7;
+          animation: glitch 1.2s infinite linear alternate-reverse;
+        }
+        @keyframes glitch {
+          0% { text-shadow: 0 0 8px #00fff7, 2px 0 #00fff7, -2px 0 #a855f7; }
+          20% { text-shadow: 2px 0 #00fff7, -2px 0 #a855f7; }
+          40% { text-shadow: -2px 0 #00fff7, 2px 0 #a855f7; }
+          60% { text-shadow: 0 2px #00fff7, 0 -2px #a855f7; }
+          80% { text-shadow: 2px 2px #00fff7, -2px -2px #a855f7; }
+          100% { text-shadow: 0 0 8px #00fff7, 2px 0 #00fff7, -2px 0 #a855f7; }
+        }
+        .matrix-rain {
+          pointer-events: none;
+          position: absolute;
+          width: 100vw;
+          height: 100vh;
+          top: 0; left: 0;
+          z-index: 0;
+          background: repeating-linear-gradient(
+            to bottom,
+            rgba(34,211,238,0.08) 0px,
+            rgba(34,211,238,0.13) 2px,
+            transparent 4px,
+            transparent 20px
+          );
+          animation: matrix-move 1.7s linear infinite;
+        }
+        @keyframes matrix-move {
+          0% { background-position-y: 0; }
+          100% { background-position-y: 40px; }
+        }
       `}</style>
     </div>
   );
@@ -221,7 +253,7 @@ function App() {
 
   useEffect(() => {
     if (!loadingScreen) return;
-    const timer = setTimeout(() => setLoadingScreen(false), 3500);
+    const timer = setTimeout(() => setLoadingScreen(false), 4200);
     return () => clearTimeout(timer);
   }, [loadingScreen]);
 
