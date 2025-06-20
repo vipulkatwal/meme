@@ -4,7 +4,7 @@ import { socket } from "../services/socketClient";
 import { getUser, mockUsers } from "../utils/userId";
 
 const API_URL =
-	import.meta.env.VITE_API_URL || "https://meme-hustle.up.railway.app";
+	import.meta.env.VITE_API_URL || "https://meme-production-098a.up.railway.app";
 
 export function useMemes() {
 	const [memes, setMemes] = useState([]);
