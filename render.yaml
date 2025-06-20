@@ -9,11 +9,10 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # Note: Add your SUPABASE_URL and SUPABASE_KEY in the Render UI
-      # under Environment for the 'meme-server' service.
+      # Add SUPABASE_URL and SUPABASE_KEY manually via Render dashboard
 
   # Frontend Service (Static Site)
-  - type: static_site
+  - type: static
     name: meme-client
     rootDir: ./client
     buildCommand: npm install && npm run build
