@@ -13,7 +13,7 @@ services:
       # under Environment for the 'meme-server' service.
 
   # Frontend Service (Static Site)
-  - type: static
+  - type: static_site
     name: meme-client
     rootDir: client
     buildCommand: "npm install && npm run build"
