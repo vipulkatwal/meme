@@ -13,6 +13,7 @@ const httpServer = createServer(app);
 const allowedOrigins = [
 	process.env.CLIENT_URL || "http://localhost:5173",
 	"http://localhost:5173",
+	"https://meme-hustle-wheat.vercel.app",
 ];
 const io = new Server(httpServer, {
 	cors: {
