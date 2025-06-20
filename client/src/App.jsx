@@ -20,14 +20,23 @@ const ToastContext = createContext();
 
 function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
+  const [exitingToasts, setExitingToasts] = useState(new Set());
   const toastId = useRef(0);
 
   const showToast = (message, type = 'info') => {
     const id = toastId.current++;
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 2200);
+      setExitingToasts(prev => new Set(prev).add(id));
+      setTimeout(() => {
+        setToasts((prev) => prev.filter((t) => t.id !== id));
+        setExitingToasts(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(id);
+          return newSet;
+        });
+      }, 300);
+    }, 3500);
   };
 
   // Icon and color per type (inspired by your screenshot)
@@ -83,7 +92,7 @@ function ToastProvider({ children }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`animate-toast-in ${toastBg(toast.type)} backdrop-blur-md shadow-md rounded-xl px-4 py-2 min-w-[180px] max-w-[340px] font-orbitron text-sm pointer-events-auto select-none flex items-center gap-2 border ${toastBorder(toast.type)} ${toastText(toast.type)} ${toast.type === 'bid' ? 'shadow-[0_2px_16px_0_#ffb30055] border-2' : ''}`}
+            className={`${exitingToasts.has(toast.id) ? 'toast-exit' : 'animate-toast-in'} ${toastBg(toast.type)} backdrop-blur-md shadow-md rounded-xl px-4 py-2 min-w-[180px] max-w-[340px] font-orbitron text-sm pointer-events-auto select-none flex items-center gap-2 border ${toastBorder(toast.type)} ${toastText(toast.type)} ${toast.type === 'bid' ? 'shadow-[0_2px_16px_0_#ffb30055] border-2' : ''}`}
             style={{
               boxShadow: '0 2px 12px 0 rgba(0,0,0,0.12)',
               letterSpacing: '0.01em',
@@ -100,11 +109,34 @@ function ToastProvider({ children }) {
       </div>
       <style>{`
         @keyframes toast-in {
-          from { opacity: 0; transform: translateY(-12px) scale(0.98); }
-          to { opacity: 1; transform: translateY(0) scale(1); }
+          from {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            filter: blur(2px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+          }
+        }
+        @keyframes toast-out {
+          from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+          }
+          to {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.98);
+            filter: blur(1px);
+          }
         }
         .animate-toast-in {
-          animation: toast-in 0.28s cubic-bezier(0.4,0,0.2,1);
+          animation: toast-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .toast-exit {
+          animation: toast-out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
       `}</style>
     </ToastContext.Provider>
