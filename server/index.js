@@ -8,6 +8,7 @@ const { setupBidHandlers } = require("./sockets/bidHandlers");
 const rateLimit = require("express-rate-limit");
 
 const app = express();
+app.set("trust proxy", 1);
 const httpServer = createServer(app);
 const allowedOrigins = [
 	process.env.CLIENT_URL || "http://localhost:5173",
