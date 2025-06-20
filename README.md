@@ -2,6 +2,8 @@
 
 Welcome to **MemeHustle** — the futuristic meme trading platform where you can bid, and battle memes in real time! JPEGs finally get the respect (and market) they deserve.
 
+![Home Page](screenshots/home.png)
+
 ---
 
 ## 🌟 Features
@@ -49,20 +51,32 @@ Welcome to **MemeHustle** — the futuristic meme trading platform where you can
 
 ## 📸 Screenshots
 
-### Home Page
+<div align="center">
+
+### 🏠 Home Page
 ![Home Page](screenshots/home.png)
 
-### Trending Page
+---
+
+### 📈 Trending Page
 ![Trending Page](screenshots/trending.png)
 
-### Leaderboard Page
+---
+
+### 🏆 Leaderboard Page
 ![Leaderboard Page](screenshots/leaderboard.png)
 
-### Meme Duel Page
+---
+
+### ⚔️ Meme Duel Page
 ![Meme Duel Page](screenshots/duel.png)
 
-### Add Meme Page
+---
+
+### ➕ Add Meme Page
 ![Add Meme Page](screenshots/addMeme.png)
+
+</div>
 
 ---
 
