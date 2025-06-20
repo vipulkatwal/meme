@@ -27,4 +27,4 @@ services:
         fromService:
           name: meme-server
           type: web
-          property: url
+          property: host
