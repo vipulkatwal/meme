@@ -32,7 +32,18 @@ const BidPanel = ({ memeId, currentHighestBid = 0, highestBidder, onBid }) => {
         'Bid placed! You just flexed your meme wallet.',
         'You just outbid a crypto bro.',
         'Bidding war initiated. May the best meme win!',
-        'Your credits are now in meme battle mode!'
+        'Your credits are now in meme battle mode!',
+        'Bid successful! You just became a meme investor.',
+        'Meme market manipulation in progress...',
+        'You just made it rain on this meme! 💰',
+        'Bid deployed! The meme economy thanks you.',
+        'You just bought the dip on this meme.',
+        'Bid registered! Meme is now appreciating in value.',
+        'You just became a meme whale! 🐋',
+        'Bid successful! The meme gods are counting your money.',
+        'You just made this meme go to the moon! 🚀',
+        'Bid placed! Meme is now diamond hands certified.',
+        'You just became a meme market maker!'
       ];
       showToast(messages[Math.floor(Math.random() * messages.length)], 'bid');
     }).finally(() => setLoading(false));

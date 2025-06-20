@@ -84,17 +84,33 @@ const MemeCard = ({ meme, onVote, onBid, cardSize }) => {
         'Upvoted! This meme just got a little more legendary.',
         'You blessed this meme with your cyberpunk approval.',
         'Meme power level increased!',
-        'You just injected pure win into this meme.'
+        'You just injected pure win into this meme.',
+        'Upvote deployed! Meme is now 69% more dank.',
+        'You just gave this meme a digital high-five!',
+        'Meme status: ABSOLUTELY BANGING! 🔥',
+        'Upvote successful! The meme gods are pleased.',
+        'You just made this meme go viral in the matrix.',
+        'Meme upgraded to premium tier! ✨',
+        'Upvote registered! This meme is now unstoppable.',
+        'You just blessed the timeline with quality content.'
       ];
-      showToast(upMsgs[Math.floor(Math.random() * upMsgs.length)], 'success');
+      showToast(upMsgs[Math.floor(Math.random() * upMsgs.length)], 'upvote');
     } else {
       const downMsgs = [
         'Downvoted! Meme sent to the shadow realm.',
         'Oof, that meme felt your wrath.',
         'You just gave this meme a reality check.',
-        'Downvote delivered. Meme is re-evaluating its life choices.'
+        'Downvote delivered. Meme is re-evaluating its life choices.',
+        'Meme has been yeeted into the void.',
+        'You just cancelled this meme harder than Twitter.',
+        'Downvote successful! Meme is now questioning everything.',
+        'Meme status: CRINGE DETECTED! 😬',
+        'You just sent this meme to meme jail.',
+        'Downvote registered! Meme is having an existential crisis.',
+        'Meme has been banished to the cringe dimension.',
+        'You just gave this meme the digital equivalent of a facepalm.'
       ];
-      showToast(downMsgs[Math.floor(Math.random() * downMsgs.length)], 'error');
+      showToast(downMsgs[Math.floor(Math.random() * downMsgs.length)], 'downvote');
     }
   };
 

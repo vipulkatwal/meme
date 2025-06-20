@@ -20,9 +20,20 @@ const MemeForm = ({ onSubmit }) => {
       'Meme deployed! The internet trembles.',
       'Upload complete. May the memes be ever in your favor!',
       'You just dropped a meme bomb.',
-      'A wild meme appears!'
+      'A wild meme appears!',
+      'Meme successfully launched into the digital stratosphere!',
+      'Upload complete! The meme matrix has been updated.',
+      'You just created digital art that will confuse future archaeologists.',
+      'Meme deployed! The timeline is now 420% more dank.',
+      'Upload successful! You just made the internet a better place.',
+      'Meme launched! The cyberpunk gods are pleased.',
+      'You just added fuel to the meme economy!',
+      'Upload complete! This meme is now part of digital history.',
+      'Meme deployed! The algorithm is having a moment.',
+      'You just blessed the internet with quality content!',
+      'Upload successful! The meme gods have been summoned.'
     ];
-    showToast(messages[Math.floor(Math.random() * messages.length)], 'success');
+    showToast(messages[Math.floor(Math.random() * messages.length)], 'upload');
   };
 
   const handleChange = (e) => {
