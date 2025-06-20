@@ -9,14 +9,15 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # Add SUPABASE_URL and SUPABASE_KEY manually via Render dashboard
+      # Add SUPABASE_URL and SUPABASE_KEY manually in Render UI
 
-  # Frontend Service (Static Site)
-  - type: static
+  # Frontend Service (React Static Site)
+  - type: web
     name: meme-client
+    env: static
     rootDir: ./client
     buildCommand: npm install && npm run build
-    publishDir: ./dist
+    staticPublishPath: ./dist
     routes:
       - type: rewrite
         source: "/*"
