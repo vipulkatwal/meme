@@ -6,16 +6,21 @@ const MemeForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     title: '',
     image_url: '',
+    address_link: '',
     tags: ''
   });
+  const [imageError, setImageError] = useState(false);
   const showToast = useToast();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const tags = formData.tags.split(',').map(tag => tag.trim());
-    onSubmit({ ...formData, tags });
-    setFormData({ title: '', image_url: '', tags: '' });
-    // Funny toast
+    const finalImageUrl = formData.image_url || formData.address_link;
+
+    onSubmit({ ...formData, image_url: finalImageUrl, tags });
+    setFormData({ title: '', image_url: '', address_link: '', tags: '' });
+    setImageError(false);
+
     const messages = [
       'Meme deployed! The internet trembles.',
       'Upload complete. May the memes be ever in your favor!',
@@ -39,7 +44,20 @@ const MemeForm = ({ onSubmit }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    if ((name === 'image_url' || name === 'address_link') && imageError) {
+      setImageError(false);
+    }
   };
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const handleImageLoad = () => {
+    setImageError(false);
+  };
+
+  const previewUrl = formData.image_url || formData.address_link;
 
   return (
     <motion.div
@@ -69,7 +87,6 @@ const MemeForm = ({ onSubmit }) => {
           />
         </div>
 
-
         <div>
           <label className="block text-cyan-300 font-share-tech-mono mb-2">
             MEME ADDRESS LINK
@@ -86,7 +103,6 @@ const MemeForm = ({ onSubmit }) => {
           />
         </div>
 
-        {/* Live Image Preview */}
         {previewUrl && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
