@@ -71,7 +71,7 @@ const MemeForm = ({ onSubmit }) => {
 
         <div>
           <label className="block text-cyan-300 font-share-tech-mono mb-2">
-            IMAGE URL
+            IMAGE ADDRESS LINK
           </label>
           <input
             type="url"
