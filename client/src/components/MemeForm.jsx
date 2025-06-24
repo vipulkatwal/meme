@@ -1,48 +1,45 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useToast } from '../App';
 
 const MemeForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     title: '',
     image_url: '',
-    address_link: '',
     tags: ''
   });
-  const [imageError, setImageError] = useState(false);
+  const showToast = useToast();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const tags = formData.tags.split(',').map(tag => tag.trim());
-    // Use image_url if provided, otherwise use address_link
-    const finalImageUrl = formData.image_url || formData.address_link;
-    onSubmit({ ...formData, image_url: finalImageUrl, tags });
-    setFormData({ title: '', image_url: '', address_link: '', tags: '' });
-    setImageError(false);
-
-    // Show success message (assuming there's a toast system)
-    console.log('Meme uploaded successfully!');
+    onSubmit({ ...formData, tags });
+    setFormData({ title: '', image_url: '', tags: '' });
+    // Funny toast
+    const messages = [
+      'Meme deployed! The internet trembles.',
+      'Upload complete. May the memes be ever in your favor!',
+      'You just dropped a meme bomb.',
+      'A wild meme appears!',
+      'Meme successfully launched into the digital stratosphere!',
+      'Upload complete! The meme matrix has been updated.',
+      'You just created digital art that will confuse future archaeologists.',
+      'Meme deployed! The timeline is now 420% more dank.',
+      'Upload successful! You just made the internet a better place.',
+      'Meme launched! The cyberpunk gods are pleased.',
+      'You just added fuel to the meme economy!',
+      'Upload complete! This meme is now part of digital history.',
+      'Meme deployed! The algorithm is having a moment.',
+      'You just blessed the internet with quality content!',
+      'Upload successful! The meme gods have been summoned.'
+    ];
+    showToast(messages[Math.floor(Math.random() * messages.length)], 'upload');
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-
-    // Reset image error when user starts typing in either URL field
-    if ((name === 'image_url' || name === 'address_link') && imageError) {
-      setImageError(false);
-    }
   };
-
-  const handleImageError = () => {
-    setImageError(true);
-  };
-
-  const handleImageLoad = () => {
-    setImageError(false);
-  };
-
-  // Get the current image URL for preview (prioritize image_url over address_link)
-  const previewUrl = formData.image_url || formData.address_link;
 
   return (
     <motion.div
